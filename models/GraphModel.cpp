@@ -1,45 +1,46 @@
-#include "NodesModel.h"
+#include "GraphModel.h"
 #include "common.h"
 #include "Descriptors.h"
 
 
-NodesModel::NodesModel(const QString& graphName, QObject* parent)
+GraphModel::GraphModel(const QString& graphName, QObject* parent)
     : m_graphName(graphName)
 {
+    m_linkModel = new LinkModel(this);
 }
 
-NodesModel::~NodesModel()
+GraphModel::~GraphModel()
 {
 }
 
-QModelIndex NodesModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex GraphModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (row < 0 || row >= rowCount())
         return QModelIndex();
     return createIndex(row, 0);
 }
 
-QModelIndex NodesModel::parent(const QModelIndex& child) const
+QModelIndex GraphModel::parent(const QModelIndex& child) const
 {
     return QModelIndex();
 }
 
-int NodesModel::rowCount(const QModelIndex& parent) const
+int GraphModel::rowCount(const QModelIndex& parent) const
 {
     return m_nodes.size();
 }
 
-int NodesModel::columnCount(const QModelIndex& parent) const
+int GraphModel::columnCount(const QModelIndex& parent) const
 {
     return 1;
 }
 
-bool NodesModel::hasChildren(const QModelIndex& parent) const
+bool GraphModel::hasChildren(const QModelIndex& parent) const
 {
     return false;
 }
 
-QVariant NodesModel::data(const QModelIndex& index, int role) const
+QVariant GraphModel::data(const QModelIndex& index, int role) const
 {
     NodeItem* item = m_nodes[m_row2id[index.row()]];
 
@@ -55,7 +56,7 @@ QVariant NodesModel::data(const QModelIndex& index, int role) const
     }
 }
 
-bool NodesModel::setData(const QModelIndex& index, const QVariant& value, int role)
+bool GraphModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     NodeItem* item = m_nodes[m_row2id[index.row()]];
 
@@ -69,14 +70,29 @@ bool NodesModel::setData(const QModelIndex& index, const QVariant& value, int ro
     return false;
 }
 
-QModelIndexList NodesModel::match(const QModelIndex& start, int role,
+QModelIndexList GraphModel::match(const QModelIndex& start, int role,
     const QVariant& value, int hits,
     Qt::MatchFlags flags) const
 {
     return QModelIndexList();
 }
 
-void NodesModel::appendNode(QString ident, QString name)
+void GraphModel::addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam)
+{
+    QModelIndex from, to;
+
+    ParamsModel* fromParams = m_nodes[fromParam.first]->params;
+    ParamsModel* toParams = m_nodes[toParam.first]->params;
+
+    from = fromParams->paramIdx(fromParam.second, false);
+    to = toParams->paramIdx(toParam.second, true);
+
+    QModelIndex linkIdx = m_linkModel->addLink(from, to);
+    fromParams->addLink(from, linkIdx);
+    toParams->addLink(to, linkIdx);
+}
+
+void GraphModel::appendNode(QString ident, QString name)
 {
     auto* pDescs = Descriptors::instance();
     NODE_DESCRIPTOR desc = pDescs->getDescriptor(name);
@@ -95,24 +111,33 @@ void NodesModel::appendNode(QString ident, QString name)
     m_nodes.insert(ident, pItem);
 
     endInsertRows();
+
+    pItem->params->setNodeIdx(createIndex(nRows, 0));
 }
 
-QHash<int, QByteArray> NodesModel::roleNames() const
+void GraphModel::removeNode(QString ident)
+{
+    int row = m_id2Row[ident];
+    removeRow(row);
+}
+
+QHash<int, QByteArray> GraphModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[ROLE_OBJNAME] = "name";
     roles[ROLE_OBJID] = "ident";
     roles[ROLE_PARAMS] = "params";
+    roles[ROLE_LINKS] = "linkModel";
     return roles;
 }
 
-bool NodesModel::removeRows(int row, int count, const QModelIndex& parent)
+bool GraphModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row);
 
     QString id = m_row2id[row];
     NodeItem* pItem = m_nodes[id];
-    pItem->params->clear();
+    //pItem->params->clear();
 
     for (int r = row + 1; r < rowCount(); r++)
     {
@@ -132,21 +157,27 @@ bool NodesModel::removeRows(int row, int count, const QModelIndex& parent)
 }
 
 
-void NodesModel::updateParamName(QModelIndex nodeIdx, int row, QString newName)
+void GraphModel::updateParamName(QModelIndex nodeIdx, int row, QString newName)
 {
     NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
     QModelIndex paramIdx = item->params->index(row, 0);
     item->params->setData(paramIdx, newName, ROLE_OBJNAME);
 }
 
-void NodesModel::removeParam(QModelIndex nodeIdx, int row)
+void GraphModel::removeParam(QModelIndex nodeIdx, int row)
 {
     NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
     item->params->removeRow(row);
 }
 
-ParamsModel* NodesModel::params(QModelIndex nodeIdx)
+ParamsModel* GraphModel::params(QModelIndex nodeIdx)
 {
     NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
     return item->params;
+}
+
+QModelIndex GraphModel::nodeIdx(const QString& ident) const
+{
+    int nRow = m_id2Row[ident];
+    return createIndex(nRow, 0);
 }

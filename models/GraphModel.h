@@ -6,6 +6,8 @@
 #include <QString>
 #include <QQuickItem>
 #include "ParamsModel.h"
+#include "LinkModel.h"
+
 
 struct NodeItem : public QObject
 {
@@ -17,15 +19,19 @@ struct NodeItem : public QObject
     //NodesModel* m_pSubgraphModel;
 };
 
-class NodesModel : public QAbstractItemModel
+class GraphModel : public QAbstractItemModel
 {
     Q_OBJECT
     typedef QAbstractItemModel _base;
+
+    //Q_PROPERTY(CONTROL_TYPE control READ getControl WRITE setControl NOTIFY control_changed)
+
     QML_ELEMENT
 
 public:
-    NodesModel(const QString& graphName, QObject* parent = nullptr);
-    ~NodesModel();
+    GraphModel(const QString& graphName, QObject* parent = nullptr);
+    ~GraphModel();
+    Q_INVOKABLE LinkModel* getLinkModel() const { return m_linkModel; }
 
     //QAbstractItemModel
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
@@ -44,6 +50,8 @@ public:
 
     //NodesModel:
     void appendNode(QString ident, QString name);
+    void removeNode(QString ident);
+    void addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam);
 
     //test functions:
     void updateParamName(QModelIndex nodeIdx, int row, QString newName);
@@ -51,10 +59,14 @@ public:
     ParamsModel* params(QModelIndex nodeIdx);
 
 private:
+    QModelIndex nodeIdx(const QString& ident) const;
+
     QString m_graphName;
     QHash<QString, int> m_id2Row;
     QHash<int, QString> m_row2id;
     QHash<QString, NodeItem*> m_nodes;
+
+    LinkModel* m_linkModel;
 };
 
 #endif

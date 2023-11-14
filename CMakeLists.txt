@@ -31,12 +31,14 @@ set(source
     zparamitem.cpp
     zparamitem.h
 
-    models/NodesModel.cpp
-    models/NodesModel.h
+    models/GraphModel.cpp
+    models/GraphModel.h
     models/ParamsModel.cpp
     models/ParamsModel.h
     models/Descriptors.cpp
     models/Descriptors.h
+    models/LinkModel.cpp
+    models/LinkModel.h
 
     #qml:
     qml/layout.qml
@@ -48,6 +50,8 @@ set(source
     qml/ZParam.qml
     qml/ZParam2.qml
     qml/ZNode.qml
+    qml/Edge.qml
+    qml/NodePair.qml
     qml/testParam.qml
     qml/testNode.qml
     qml/testGraphEditor.qml
@@ -62,6 +66,7 @@ set(source
     qml/SocketName.qml
     qml/FillSpacer.qml
     qml/FixSpacer.qml
+    qml/MyNode.qml
     qml/controls/ZButton.qml
     qml/controls/ZCheckBox.qml
     qml/controls/ZColorBtn.qml

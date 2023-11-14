@@ -28,12 +28,47 @@ ApplicationWindow {
             required property string name
             required property string ident
             required property variant params
+
+            //id: ident     //warning: Unable to assign ZNode_QMLTYPE_31_QML_35 to QString
             arg_name: name
             arg_ident: ident
             paramModel: params
             x: 200
             y: 150
         }
+    }
+    Repeater {
+        model: nodesModel.getLinkModel()
+        delegate: Text {
+            required property var fromParam
+            required property var toParam
+
+            text: fromParam[0] + ":" + fromParam[1] + "->" + toParam[0] + ":" + toParam[1]
+        }
+    }
+
+    /*
+    Repeater {
+        model: linksModel
+
+        delegate: Edge {
+            required property string fromSock
+            required property string toSock
+
+            id: wtf
+            visible: true
+            point1x: 0
+            point1y: 0
+            point2x: 0
+            point2y: 0
+            color: "blue"
+        }
+    }
+    */
+
+
+    Component.onCompleted: {
+        
     }
 
     /*

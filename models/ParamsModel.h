@@ -8,13 +8,14 @@
 
 struct ParamItem
 {
+    bool bInput = true;
     QString name;
     QString type;
     ParamControl::Value control = ParamControl::None;
-    bool bInput = true;
+    QList<QPersistentModelIndex> links;
 };
 
-class ParamsModel : public QStandardItemModel
+class ParamsModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -24,6 +25,14 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
     QHash<int, QByteArray> roleNames() const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    void setNodeIdx(const QModelIndex& nodeIdx);
+    QModelIndex paramIdx(const QString& name, bool bInput) const;
+    void addLink(const QModelIndex& paramIdx, const QPersistentModelIndex& linkIdx);
+
+private:
+    QPersistentModelIndex m_nodeIdx;
+    QVector<ParamItem> m_items;
 };
 
 

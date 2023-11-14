@@ -5,7 +5,7 @@
 #include "mytest.h"
 #include "quick_parameter.h"
 #include "quick_node.h"
-#include "models/NodesModel.h"
+#include "models/GraphModel.h"
 #include <QFontDatabase>
 #include <QSurfaceFormat>
 
@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ZQuickNode>("ZQuickNode", 1, 0, "ZQuickNode");
 
     qRegisterMetaType<ParamsModel*>("ParamsModel*");
+    qRegisterMetaType<LinkModel*>("LinkModel*");
 
     qmlRegisterUncreatableType<ParamControl>("zeno.enum", 1, 0, "ParamControl", "Not creatable as it is an enum type");
 
@@ -54,17 +55,20 @@ int main(int argc, char *argv[])
     //QObject* myObject = comp.create();
     //ZQuickParam* item = qobject_cast<ZQuickParam*>(myObject);
 
-    NodesModel* nodesModel = new NodesModel("main");
-    nodesModel->appendNode("17d801b-CreateCube", "CreateCube");
+    GraphModel* graphM = new GraphModel("main");
+    graphM->appendNode("17d801b-CreateCube", "CreateCube");
+    graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle");
+
+    graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [=]() {
         if (false) {
-            QModelIndex idx = nodesModel->index(0, 0);
+            QModelIndex idx = graphM->index(0, 0);
             //nodesModel->updateParamName(idx, 0, "pos2");
             //nodesModel->removeParam(idx, 0);
 
-            ParamsModel* params = nodesModel->params(idx);
+            ParamsModel* params = graphM->params(idx);
             //params->removeRow(1);
 
             //QStandardItem* pItem = new QStandardItem;
@@ -74,16 +78,23 @@ int main(int argc, char *argv[])
             //pItem->setData(true, ROLE_ISINPUT);
             //params->insertRow(3, pItem);
 
-            params->setData(params->index(0, 0), ParamControl::Multiline, ROLE_PARAM_CONTROL);
+            params->setData(params->index(0, 0), "newName", ROLE_OBJNAME);
 
             //nodesModel->setData(idx, "FUCKQML", ROLE_OBJNAME);
+        }
+
+        if (false) {
+            //test append node.
+            graphM->appendNode("dfe3fc3d-GetFrameNum", "GetFrameNum");
+        }
+
+        if (false) {
+            graphM->removeNode("d8b3fc3d-ParticlesWrangle");
         }
     });
     timer.start(1000);
 
-    nodesModel->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle");
-
-    engine.rootContext()->setContextProperty("nodesModel", nodesModel);
+    engine.rootContext()->setContextProperty("nodesModel", graphM);
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
     if (engine.rootObjects().isEmpty())

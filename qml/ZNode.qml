@@ -103,6 +103,14 @@ Rectangle {
         }
     }
 
+    function getZParam() {
+        
+    }
+
+    Component.onCompleted: {
+        
+    }
+
     Connections {
         /*
         target: thisnode
