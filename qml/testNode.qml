@@ -22,6 +22,7 @@ ApplicationWindow {
     //}
 
     Repeater{
+        id: nodesContainer
         model: nodesModel
 
         delegate: ZNode {
@@ -37,6 +38,35 @@ ApplicationWindow {
             y: 150
         }
     }
+
+    Edge {
+        id: edge233
+        visible: true
+        point1x: 0
+        point1y: 0
+        point2x: 0
+        point2y: 0
+        color: "blue"
+
+        Component.onCompleted: {
+            point1x = Qt.binding(function() { return nodesContainer.itemAt(0).x })
+            point1y = Qt.binding(function() { return nodesContainer.itemAt(0).y })
+            point2x = Qt.binding(function() { return nodesContainer.itemAt(1).x })
+            point2y = Qt.binding(function() { return nodesContainer.itemAt(1).y })
+        }
+    }
+
+
+    /*
+    Text {
+            Component.onCompleted: {
+                text = Qt.binding(function() { return nodesContainer.itemAt(0).x + "->" + nodesContainer.itemAt(1).x })
+                //find node obj in nodesContainer, and then find ZParam property
+                //finally, we can bind the specific property into Edge.x/y.
+                console.log("Link completed;")
+            }
+    }
+
     Repeater {
         model: nodesModel.getLinkModel()
         delegate: Text {
@@ -44,10 +74,16 @@ ApplicationWindow {
             required property var toParam
 
             text: fromParam[0] + ":" + fromParam[1] + "->" + toParam[0] + ":" + toParam[1]
+
+            Component.onCompleted: {
+                text = Qt.binding(function() { return nodesContainer.itemAt(0).x + "->" + nodesContainer.itemAt(1).x })
+                //find node obj in nodesContainer, and then find ZParam property
+                //finally, we can bind the specific property into Edge.x/y.
+                console.log("Link completed;")
+            }
         }
     }
 
-    /*
     Repeater {
         model: linksModel
 
