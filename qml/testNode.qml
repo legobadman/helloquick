@@ -71,15 +71,18 @@ ApplicationWindow {
                         Component.onCompleted: {
                             point1x = Qt.binding(function() {
                                 var outNode = nodes.getZNode(fromParam[0])
+                                outNode.width       //在outNode的宽度发生变化时,强制其触发重算,否则只有等outNode.x移动才会更新, 场景: 参数增加时
+
                                 var socketObj = outNode.getSocketObj(fromParam[1], false)
                                 var pt = outNode.mapFromItem(socketObj, 0, 0)
-                                //var pt2 = socketObj.mapToGlobal()
                                 //console.log("x=", pt2.x)
                                 return pt.x + outNode.x
                             })
 
                             point1y = Qt.binding(function() {
                                 var outNode = nodes.getZNode(fromParam[0])
+                                outNode.height
+
                                 var socketObj = outNode.getSocketObj(fromParam[1], false)
                                 var pt = outNode.mapFromItem(socketObj, 0, 0)
                                 //console.log("y=", pt.y)
@@ -88,6 +91,8 @@ ApplicationWindow {
 
                             point2x = Qt.binding(function() {
                                 var inNode = nodes.getZNode(toParam[0])
+                                inNode.width
+
                                 var socketObj = inNode.getSocketObj(toParam[1], true)
                                 var pt = inNode.mapFromItem(socketObj, 0, 0)
                                 return inNode.x + pt.x
@@ -95,6 +100,8 @@ ApplicationWindow {
 
                             point2y = Qt.binding(function() {
                                 var inNode = nodes.getZNode(toParam[0])
+                                inNode.height
+
                                 var socketObj = inNode.getSocketObj(toParam[1], true)
                                 var pt = inNode.mapFromItem(socketObj, 0, 0)
                                 return inNode.y + pt.y
