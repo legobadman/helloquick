@@ -22,6 +22,9 @@ class ParamsModel : public QAbstractListModel
 
 public:
     ParamsModel(NODE_DESCRIPTOR desc, QObject* parent = nullptr);
+
+    Q_INVOKABLE int indexFromName(const QString& name, bool bInput) const;
+
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
     QHash<int, QByteArray> roleNames() const override;

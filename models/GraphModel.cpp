@@ -20,6 +20,11 @@ QModelIndex GraphModel::index(int row, int column, const QModelIndex& parent) co
     return createIndex(row, 0);
 }
 
+int GraphModel::indexFromId(const QString& ident) const
+{
+    return m_id2Row[ident];
+}
+
 QModelIndex GraphModel::parent(const QModelIndex& child) const
 {
     return QModelIndex();

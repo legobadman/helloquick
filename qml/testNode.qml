@@ -12,18 +12,23 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
-    //Graph {
-    //    anchors.fill: parent
-    //}
-
-    //ZNode {
-    //    id: yyy_CreateCube
-    //    name: "CreateCube"
-    //}
-
     Repeater{
-        id: nodesContainer
+        id: nodes
         model: nodesModel
+
+        function idxFromId(ident) {
+            var idx = nodesModel.indexFromId(ident)
+            //console.log(idx)
+        }
+
+        function getZNode(ident) {
+            var idx = nodesModel.indexFromId(ident)
+            if (idx == -1) {
+                return null
+            } else {
+                return nodes.itemAt(idx)
+            }
+        }
 
         delegate: ZNode {
             required property string name
@@ -37,70 +42,66 @@ ApplicationWindow {
             x: 200
             y: 150
         }
-    }
-
-    Edge {
-        id: edge233
-        visible: true
-        point1x: 0
-        point1y: 0
-        point2x: 0
-        point2y: 0
-        color: "blue"
 
         Component.onCompleted: {
-            point1x = Qt.binding(function() { return nodesContainer.itemAt(0).x })
-            point1y = Qt.binding(function() { return nodesContainer.itemAt(0).y })
-            point2x = Qt.binding(function() { return nodesContainer.itemAt(1).x })
-            point2y = Qt.binding(function() { return nodesContainer.itemAt(1).y })
+            var edgesContainer = Qt.createQmlObject('
+                import QtQuick 2.12
+                import QtQuick.Controls 1.2
+                import QtQuick.Layouts 1.3
+                import QtQuick.Controls 1.4
+                import QtQuick.Controls.Styles 1.4
+
+                Repeater {
+                    model: nodesModel.getLinkModel()
+
+                    delegate: Edge {
+
+                        required property var fromParam
+                        required property var toParam
+
+                        id: edge233
+                        visible: true
+                        point1x: 0
+                        point1y: 0
+                        point2x: 0
+                        point2y: 0
+                        color: "blue"
+
+                        Component.onCompleted: {
+                            point1x = Qt.binding(function() {
+                                var outNode = nodes.getZNode(fromParam[0])
+                                var socketObj = outNode.getSocketObj(fromParam[1], false)
+                                var pt = outNode.mapFromItem(socketObj, 0, 0)
+                                //console.log("x=", pt.x)
+                                return pt.x + outNode.x
+                            })
+
+                            point1y = Qt.binding(function() {
+                                var outNode = nodes.getZNode(fromParam[0])
+                                var socketObj = outNode.getSocketObj(fromParam[1], false)
+                                var pt = outNode.mapFromItem(socketObj, 0, 0)
+                                //console.log("y=", pt.y)
+                                return pt.y + outNode.y
+                            })
+
+                            point2x = Qt.binding(function() {
+                                var inNode = nodes.getZNode(toParam[0])
+                                var socketObj = inNode.getSocketObj(toParam[1], true)
+                                var pt = inNode.mapFromItem(socketObj, 0, 0)
+                                return inNode.x + pt.x
+                            })
+
+                            point2y = Qt.binding(function() {
+                                var inNode = nodes.getZNode(toParam[0])
+                                var socketObj = inNode.getSocketObj(toParam[1], true)
+                                var pt = inNode.mapFromItem(socketObj, 0, 0)
+                                return inNode.y + pt.y
+                            })
+                        }
+                    }
+                }', appWindow)
         }
     }
-
-
-    /*
-    Text {
-            Component.onCompleted: {
-                text = Qt.binding(function() { return nodesContainer.itemAt(0).x + "->" + nodesContainer.itemAt(1).x })
-                //find node obj in nodesContainer, and then find ZParam property
-                //finally, we can bind the specific property into Edge.x/y.
-                console.log("Link completed;")
-            }
-    }
-
-    Repeater {
-        model: nodesModel.getLinkModel()
-        delegate: Text {
-            required property var fromParam
-            required property var toParam
-
-            text: fromParam[0] + ":" + fromParam[1] + "->" + toParam[0] + ":" + toParam[1]
-
-            Component.onCompleted: {
-                text = Qt.binding(function() { return nodesContainer.itemAt(0).x + "->" + nodesContainer.itemAt(1).x })
-                //find node obj in nodesContainer, and then find ZParam property
-                //finally, we can bind the specific property into Edge.x/y.
-                console.log("Link completed;")
-            }
-        }
-    }
-
-    Repeater {
-        model: linksModel
-
-        delegate: Edge {
-            required property string fromSock
-            required property string toSock
-
-            id: wtf
-            visible: true
-            point1x: 0
-            point1y: 0
-            point2x: 0
-            point2y: 0
-            color: "blue"
-        }
-    }
-    */
 
 
     Component.onCompleted: {

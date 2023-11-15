@@ -31,6 +31,16 @@ QVariant ParamsModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+int ParamsModel::indexFromName(const QString& name, bool bInput) const
+{
+    for (int i = 0; i < m_items.length(); i++) {
+        if (m_items[i].name == name && m_items[i].bInput == bInput) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 bool ParamsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     return QAbstractListModel::setData(index, value, role);

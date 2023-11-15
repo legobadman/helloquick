@@ -32,6 +32,7 @@ public:
     GraphModel(const QString& graphName, QObject* parent = nullptr);
     ~GraphModel();
     Q_INVOKABLE LinkModel* getLinkModel() const { return m_linkModel; }
+    Q_INVOKABLE int indexFromId(const QString& ident) const;
 
     //QAbstractItemModel
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;

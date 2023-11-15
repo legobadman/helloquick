@@ -84,7 +84,19 @@ Rectangle {
                 anchors.margins: 8
 
                 Repeater{
+                    id: params
                     model: qmlnode.paramModel
+
+                    function getZParam(name, isinput) {
+                        var idx = qmlnode.paramModel.indexFromName(name, isinput)
+                        if (idx != -1) {
+                            //console.log(idx)
+                            return params.itemAt(idx)
+                        } else {
+                            return null
+                        }
+                    }
+
                     delegate: ZParam {
                         required property string name
                         required property string type
@@ -103,8 +115,21 @@ Rectangle {
         }
     }
 
-    function getZParam() {
-        
+    function getSocketPos(paramName, isinput) {
+        var zparamobj = params.getZParam(paramName, isinput)
+        var socketpos = zparamobj.getSocketPos()
+        //console.log('socketpos', socketpos.x, socketpos.y)
+        return {'x': qmlnode.x + socketpos.x, 'y': qmlnode.y + socketpos.y}
+    }
+
+    function getSocketGlobalPos(paramName, isinput) {
+        var zparamobj = params.getZParam(paramName, isinput)
+        var socketobj = zparamobj.getSocketItemObj()
+        return socketobj.mapToItem(null, 0)
+    }
+
+    function getSocketObj(paramName, isinput) {
+        return params.getZParam(paramName, isinput).getSocketItemObj()
     }
 
     Component.onCompleted: {

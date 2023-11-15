@@ -11,6 +11,7 @@ RowLayout {
     property bool arg_isinput
     property int arg_control
     property var _controlObj : null
+    property var _socketObj : null
 
     spacing: 10
 
@@ -21,11 +22,20 @@ RowLayout {
     }
     */
 
+    function getSocketPos() {
+        //console.log(qmlparam.parent.x + _socketObj.x)
+        return {'x': _socketObj.x, 'y': _socketObj.y}
+    }
+
+    function getSocketItemObj() {
+        return _socketObj
+    }
+
     function createSocket(isInput) {
         var component = Qt.createComponent("qrc:/qml/Socket.qml");
         if (component.status == Component.Ready) {
-            var obj = component.createObject(qmlparam)
-            obj.input = isInput
+            _socketObj = component.createObject(qmlparam)
+            _socketObj.input = isInput
         }
     }
 
