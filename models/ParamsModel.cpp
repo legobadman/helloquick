@@ -81,3 +81,19 @@ void ParamsModel::addLink(const QModelIndex& paramIdx, const QPersistentModelInd
 {
     m_items[paramIdx.row()].links.append(linkIdx);
 }
+
+void ParamsModel::addParam(const ParamItem& param)
+{
+    int nRows = m_items.size();
+    beginInsertRows(QModelIndex(), nRows, nRows);
+    m_items.append(param);
+    endInsertRows();
+}
+
+bool ParamsModel::removeRows(int row, int count, const QModelIndex& parent)
+{
+    beginRemoveRows(parent, row, row);
+    m_items.removeAt(row);
+    endRemoveRows();
+    return true;
+}

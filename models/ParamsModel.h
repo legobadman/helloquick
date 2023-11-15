@@ -29,9 +29,13 @@ public:
     bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
+
+    //api:
     void setNodeIdx(const QModelIndex& nodeIdx);
     QModelIndex paramIdx(const QString& name, bool bInput) const;
     void addLink(const QModelIndex& paramIdx, const QPersistentModelIndex& linkIdx);
+    void addParam(const ParamItem& param);
 
 private:
     QPersistentModelIndex m_nodeIdx;

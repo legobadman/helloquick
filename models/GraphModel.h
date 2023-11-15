@@ -14,6 +14,7 @@ struct NodeItem : public QObject
     QString ident;
     QString name;
     ParamsModel* params;
+    QPointF pos;
 
     //for subgraph:
     //NodesModel* m_pSubgraphModel;
@@ -50,13 +51,14 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     //NodesModel:
-    void appendNode(QString ident, QString name);
+    void appendNode(QString ident, QString name, const QPointF& pos);
     void removeNode(QString ident);
     void addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam);
 
     //test functions:
     void updateParamName(QModelIndex nodeIdx, int row, QString newName);
     void removeParam(QModelIndex nodeIdx, int row);
+    void removeLink(int row);
     ParamsModel* params(QModelIndex nodeIdx);
 
 private:

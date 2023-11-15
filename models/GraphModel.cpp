@@ -52,6 +52,7 @@ QVariant GraphModel::data(const QModelIndex& index, int role) const
     switch (role) {
     case ROLE_OBJID:    return item->ident;
     case ROLE_OBJNAME:  return item->name;
+    case ROLE_OBJPOS:   return QVariantList({ item->pos.x(), item->pos.y() });
     case ROLE_PARAMS:
     {
         return QVariant::fromValue(item->params);
@@ -66,10 +67,18 @@ bool GraphModel::setData(const QModelIndex& index, const QVariant& value, int ro
     NodeItem* item = m_nodes[m_row2id[index.row()]];
 
     switch (role) {
-    case ROLE_OBJNAME:
-        item->name = value.toString();
-        emit dataChanged(index, index, QVector<int>{role});
-        return true;
+        case ROLE_OBJNAME: {
+            item->name = value.toString();
+            emit dataChanged(index, index, QVector<int>{role});
+            return true;
+        }
+        case ROLE_OBJPOS:
+        {
+            QVariantList lst = value.toList();
+            item->pos = QPointF{ lst[0].toFloat(), lst[1].toFloat() };
+            emit dataChanged(index, index, QVector<int>{role});
+            return true;
+        }
     }
 
     return false;
@@ -97,7 +106,7 @@ void GraphModel::addLink(QPair<QString, QString> fromParam, QPair<QString, QStri
     toParams->addLink(to, linkIdx);
 }
 
-void GraphModel::appendNode(QString ident, QString name)
+void GraphModel::appendNode(QString ident, QString name, const QPointF& pos)
 {
     auto* pDescs = Descriptors::instance();
     NODE_DESCRIPTOR desc = pDescs->getDescriptor(name);
@@ -109,6 +118,7 @@ void GraphModel::appendNode(QString ident, QString name)
     pItem->setParent(this);
     pItem->ident = ident;
     pItem->name = name;
+    pItem->pos = pos;
     pItem->params = new ParamsModel(desc);
 
     m_row2id[nRows] = ident;
@@ -133,6 +143,7 @@ QHash<int, QByteArray> GraphModel::roleNames() const
     roles[ROLE_OBJID] = "ident";
     roles[ROLE_PARAMS] = "params";
     roles[ROLE_LINKS] = "linkModel";
+    roles[ROLE_OBJPOS] = "pos";
     return roles;
 }
 
@@ -173,6 +184,11 @@ void GraphModel::removeParam(QModelIndex nodeIdx, int row)
 {
     NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
     item->params->removeRow(row);
+}
+
+void GraphModel::removeLink(int row)
+{
+    m_linkModel->removeRow(row);
 }
 
 ParamsModel* GraphModel::params(QModelIndex nodeIdx)

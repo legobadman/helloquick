@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
     //ZQuickParam* item = qobject_cast<ZQuickParam*>(myObject);
 
     GraphModel* graphM = new GraphModel("main");
-    graphM->appendNode("17d801b-CreateCube", "CreateCube");
-    graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle");
+    graphM->appendNode("17d801b-CreateCube", "CreateCube", { 100, 100 });
+    graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
 
     graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
@@ -69,28 +69,36 @@ int main(int argc, char *argv[])
             //nodesModel->removeParam(idx, 0);
 
             ParamsModel* params = graphM->params(idx);
-            //params->removeRow(1);
+            params->removeRow(1);
+            //params->addParam({ true, "fuckme", "string", ParamControl::Multiline });
 
-            //QStandardItem* pItem = new QStandardItem;
-            //pItem->setData("fuckme", ROLE_OBJNAME);
-            //pItem->setData("", ROLE_PARAM_TYPE);
-            //pItem->setData(ParamControl::Multiline, ROLE_PARAM_CONTROL);
-            //pItem->setData(true, ROLE_ISINPUT);
-            //params->insertRow(3, pItem);
-
-            params->setData(params->index(0, 0), "newName", ROLE_OBJNAME);
+            //params->setData(params->index(0, 0), "newName", ROLE_OBJNAME);
 
             //nodesModel->setData(idx, "FUCKQML", ROLE_OBJNAME);
         }
 
         if (false) {
             //test append node.
-            graphM->appendNode("dfe3fc3d-GetFrameNum", "GetFrameNum");
+            graphM->appendNode("dfe3fc3d-GetFrameNum", "GetFrameNum", { 400, 400 });
         }
 
         if (false) {
             graphM->removeNode("d8b3fc3d-ParticlesWrangle");
         }
+
+        if (false) {
+            graphM->addLink({ "17d801b-CreateCube","DST" }, { "d8b3fc3d-ParticlesWrangle", "zfxCode" });
+        }
+
+        if (false) {
+            graphM->removeLink(1);
+        }
+
+        if (false) {
+            graphM->setData(graphM->index(0, 0), QVariantList({0, 0}), ROLE_OBJPOS);
+
+        }
+
     });
     timer.start(1000);
 

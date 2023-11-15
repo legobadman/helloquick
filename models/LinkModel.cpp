@@ -49,6 +49,14 @@ QHash<int, QByteArray> LinkModel::roleNames() const
     return roles;
 }
 
+bool LinkModel::removeRows(int row, int count, const QModelIndex& parent)
+{
+    beginRemoveRows(parent, row, row);
+    m_items.removeAt(row);
+    endRemoveRows();
+    return true;
+}
+
 QModelIndex LinkModel::addLink(const QModelIndex& fromParam, const QModelIndex& toParam)
 {
     int row = m_items.size();

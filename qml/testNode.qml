@@ -34,13 +34,14 @@ ApplicationWindow {
             required property string name
             required property string ident
             required property variant params
+            required property var pos
 
             //id: ident     //warning: Unable to assign ZNode_QMLTYPE_31_QML_35 to QString
             arg_name: name
             arg_ident: ident
             paramModel: params
-            x: 200
-            y: 150
+            x: pos[0]
+            y: pos[1]
         }
 
         Component.onCompleted: {
@@ -72,7 +73,8 @@ ApplicationWindow {
                                 var outNode = nodes.getZNode(fromParam[0])
                                 var socketObj = outNode.getSocketObj(fromParam[1], false)
                                 var pt = outNode.mapFromItem(socketObj, 0, 0)
-                                //console.log("x=", pt.x)
+                                //var pt2 = socketObj.mapToGlobal()
+                                //console.log("x=", pt2.x)
                                 return pt.x + outNode.x
                             })
 
