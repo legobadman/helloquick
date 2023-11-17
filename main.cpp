@@ -69,10 +69,10 @@ int main(int argc, char *argv[])
             //nodesModel->removeParam(idx, 0);
 
             ParamsModel* params = graphM->params(idx);
-            params->removeRow(1);
+            //params->removeRow(1);
             //params->addParam({ true, "fuckme", "string", ParamControl::Multiline });
 
-            //params->setData(params->index(0, 0), "newName", ROLE_OBJNAME);
+            params->setData(params->index(0, 0), "newName", ROLE_OBJNAME);
 
             //nodesModel->setData(idx, "FUCKQML", ROLE_OBJNAME);
         }

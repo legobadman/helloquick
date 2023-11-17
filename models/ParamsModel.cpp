@@ -43,7 +43,26 @@ int ParamsModel::indexFromName(const QString& name, bool bInput) const
 
 bool ParamsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    return QAbstractListModel::setData(index, value, role);
+    ParamItem& param = m_items[index.row()];
+    switch (role) {
+    case ROLE_OBJNAME:
+        param.name = value.toString();
+        break;
+
+    case ROLE_PARAM_TYPE:
+        param.type = value.toString();
+        break;
+
+    case ROLE_PARAM_CONTROL:
+        param.control = (ParamControl::Value)value.toInt();
+        break;
+
+    default:
+        return false;
+    }
+
+    emit dataChanged(index, index, QVector<int>{role});
+    return true;
 }
 
 QHash<int, QByteArray> ParamsModel::roleNames() const
