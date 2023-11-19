@@ -10,6 +10,7 @@ Item {
     id: comp
 
     property bool input : true
+    property var sockOnClicked
 
     implicitWidth: shape.xline + shape.xradius
     implicitHeight: 2 * shape.yradius + shape.yline
@@ -119,6 +120,21 @@ Item {
                 x: 0
                 y: shape.ringwidth
             }
+        }
+    }
+
+    MouseArea {
+        id: socketMouseArea
+        anchors.fill: parent
+        property double factor: 1.15
+        layer.enabled: true
+        layer.samples: 8
+        hoverEnabled: false
+        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+        drag.threshold: 0
+
+        onClicked: function() {
+            comp.sockOnClicked(comp)
         }
     }
 }

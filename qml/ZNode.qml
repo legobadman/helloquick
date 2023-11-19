@@ -8,9 +8,11 @@ import zeno.enum 1.0
 Rectangle {
     id: qmlnode
     property string arg_ident
-    property string arg_name     //arg_name是为了避免和model导出的name重名
+    property string arg_name     //arg_name鏄负浜嗛伩鍏嶅拰model瀵煎嚭鐨刵ame閲嶅悕
     property variant paramModel
     property int repeaterIndex
+    
+    property var sockOnClicked
 
     color: "#303030"
 
@@ -106,6 +108,7 @@ Rectangle {
                         arg_name:    name
                         arg_isinput: input
                         arg_control: control
+                        sockOnClicked: qmlnode.sockOnClicked
                     }
                 }
             }
@@ -133,7 +136,6 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        
     }
 
     Connections {

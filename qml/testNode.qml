@@ -23,7 +23,10 @@ ApplicationWindow {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         drag.threshold: 0
+
         onWheel: {
+
+            /*
             var zoomFactor = wheel.angleDelta.y > 0 ? factor : 1/factor
             var scale = draggable.scale * zoomFactor
             scale = Math.min(Math.max(minZoom, scale), maxZoom)
@@ -33,15 +36,24 @@ ApplicationWindow {
             draggable.x += (1-zoomFactor) * point.x * draggable.scale
             draggable.y += (1-zoomFactor) * point.y * draggable.scale
             draggable.scale = scale
+            */
+
         }
+
         onPressed: {
+            /*
             if (mouse.button == Qt.MiddleButton) {
                 drag.target = draggable // start drag
             }
+            */
         }
+
         onReleased: {
+            /*
             drag.target = undefined // stop drag
+            */
         }
+
         onClicked:{
             
         }
@@ -78,21 +90,19 @@ ApplicationWindow {
                 paramModel: params
                 x: pos[0]
                 y: pos[1]
+                sockOnClicked: (sockObj) => {
+                    var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)
+                    //console.log("onClicked: " + sockGlobalPos.x + "," + sockGlobalPos.y)
 
-                MouseArea {
-                    id: nodeMouseArea
-                    anchors.fill: parent
-                    property double factor: 1.15
-                    layer.enabled: true
-                    layer.samples: 8
-                    hoverEnabled: false
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-                    drag.threshold: 0
-
-                    onClicked: function() {
-                        tempEdge.visible = true
-                        tempEdge.point1x = Qt.binding(function() { return qmlnode.x })
-                        tempEdge.point1y = Qt.binding(function() { return qmlnode.y })
+                    tempEdge.visible = true
+                    if (sockObj.input) {
+                        tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
+                        tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
+                        tempEdge.point2x = sockGlobalPos.x
+                        tempEdge.point2y = sockGlobalPos.y   
+                    } else {
+                        tempEdge.point1x = sockGlobalPos.x
+                        tempEdge.point1y = sockGlobalPos.y
                         tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
                         tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY })
                     }

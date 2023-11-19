@@ -13,6 +13,8 @@ RowLayout {
     property var _controlObj : null
     property var _socketObj : null
 
+    property var sockOnClicked
+
     spacing: 10
 
     /*
@@ -36,11 +38,12 @@ RowLayout {
         if (component.status == Component.Ready) {
             _socketObj = component.createObject(qmlparam)
             _socketObj.input = isInput
+            _socketObj.sockOnClicked = qmlparam.sockOnClicked
         }
     }
 
     function createName() {
-        //只有这种写法能binding c++类扩展的数据
+        //鍙湁杩欑鍐欐硶鑳絙inding c++绫绘墿灞曠殑鏁版嵁
         
         var item = Qt.createQmlObject('
             import QtQuick 2.12;
