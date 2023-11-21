@@ -8,8 +8,8 @@ import QtQuick.Controls.Styles 1.4
 ApplicationWindow {
     id: appWindow
     visible: true
-    width: 640
-    height: 480
+    width: 1180
+    height: 900
     title: qsTr("Hello World")
 
     MouseArea {
@@ -55,7 +55,7 @@ ApplicationWindow {
         }
 
         onClicked:{
-            
+            tempEdge.visible = false
         }
 
         Repeater{
@@ -92,21 +92,71 @@ ApplicationWindow {
                 y: pos[1]
                 sockOnClicked: (sockObj) => {
                     var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)
-                    //console.log("onClicked: " + sockGlobalPos.x + "," + sockGlobalPos.y)
+                    if (tempEdge.visible) {//固定边
+                        tempEdge.visible = false
+                        if (tempEdge.isFromInput != sockObj.input /* && from different node*/){
+                            var edgeObj = Qt.createQmlObject('
+                                import QtQuick 2.12
+                                import QtQuick.Controls 1.2
+                                import QtQuick.Layouts 1.3
+                                import QtQuick.Controls 1.4
+                                import QtQuick.Controls.Styles 1.4
 
-                    tempEdge.visible = true
-                    if (sockObj.input) {
-                        tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
-                        tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
-                        tempEdge.point2x = sockGlobalPos.x
-                        tempEdge.point2y = sockGlobalPos.y   
-                    } else {
-                        tempEdge.point1x = sockGlobalPos.x
-                        tempEdge.point1y = sockGlobalPos.y
-                        tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
-                        tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY })
+                                Edge {
+                                    visible: true
+                                    point1x: 0
+                                    point1y: 0
+                                    point2x: 0
+                                    point2y: 0
+                                    color: "blue"
+                                    thickness: 2
+                                    isFromInput: false
+                                }', appWindow)
+                            console.log("add fix edge visible:", edgeObj.visible)
+                            edgeObj.isFromInput = sockObj.input
+                            if (sockObj.input) {
+                                edgeObj.point1x = sockGlobalPos.x
+                                edgeObj.point1y = sockGlobalPos.y
+                                edgeObj.point2x = tempEdge.point2x
+                                edgeObj.point2y = tempEdge.point2y
+                                console.log("edgeObj:point1= " + edgeObj.point1x+ ", " + edgeObj.point1y)
+                                console.log("edgeObj:point2= " + edgeObj.point2x+ ", " + edgeObj.point2y)
+                            }
+                            else {
+                                edgeObj.point1x = tempEdge.point2x
+                                edgeObj.point1y = tempEdge.point2y
+                                edgeObj.point2x = sockGlobalPos.x
+                                edgeObj.point2y = sockGlobalPos.y
+                                console.log("edgeObj:point1= " + edgeObj.point1x+ ", " + edgeObj.point1y)
+                                console.log("edgeObj:point2= " + edgeObj.point2x+ ", " + edgeObj.point2y)
+                            }
+                        }
+                    } 
+                    else {//临时边
+                        //console.log("onClicked: " + sockGlobalPos.x + "," + sockGlobalPos.y)
+                        tempEdge.visible = true
+                        if (sockObj.input) {
+                            tempEdge.isFromInput = true
+                            tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
+                            tempEdge.point2x = sockGlobalPos.x
+                            tempEdge.point2y = sockGlobalPos.y   
+                        } else {
+                            tempEdge.isFromInput = false
+                            tempEdge.point1x = sockGlobalPos.x
+                            tempEdge.point1y = sockGlobalPos.y
+                            tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY })
+                        }
                     }
+                    
+                    
                 }
+
+                destoryTempEdge: () => {
+                    tempEdge.visible = false
+                }
+
             }
 
             Component.onCompleted: {
@@ -186,6 +236,7 @@ ApplicationWindow {
             point2y: 0
             color: "red"
             thickness: 2
+            isFromInput: false
         }
     }
 

@@ -134,6 +134,7 @@ Item {
         drag.threshold: 0
 
         onClicked: function() {
+            console.log("on clicked socket")
             comp.sockOnClicked(comp)
         }
     }

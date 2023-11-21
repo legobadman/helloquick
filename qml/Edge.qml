@@ -9,6 +9,7 @@ Shape {
     property real point1y
     property real point2x
     property real point2y
+    property bool isFromInput: false
     property ZParam dstparam
     property ZParam srcparam
 

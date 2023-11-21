@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     graphM->appendNode("17d801b-CreateCube", "CreateCube", { 100, 100 });
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
 
-    graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
+    //graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [=]() {
@@ -88,6 +88,10 @@ int main(int argc, char *argv[])
 
         if (false) {
             graphM->addLink({ "17d801b-CreateCube","DST" }, { "d8b3fc3d-ParticlesWrangle", "zfxCode" });
+        }
+
+        if (false) {
+            graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
         }
 
         if (false) {

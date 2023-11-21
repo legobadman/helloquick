@@ -13,6 +13,7 @@ Rectangle {
     property int repeaterIndex
     
     property var sockOnClicked
+    property var destoryTempEdge
 
     color: "#303030"
 
@@ -43,6 +44,7 @@ Rectangle {
                 showNodeMenu(qmlnode, Qt.point(mouse.x, mouse.y))
             }
             qmlnode.forceActiveFocus()  //make all textInput focus out
+            qmlnode.destoryTempEdge();
         }
         ColumnLayout  {
             id: mainLayout

@@ -100,7 +100,7 @@ void GraphModel::addLink(QPair<QString, QString> fromParam, QPair<QString, QStri
 
     from = fromParams->paramIdx(fromParam.second, false);
     to = toParams->paramIdx(toParam.second, true);
-
+ 
     QModelIndex linkIdx = m_linkModel->addLink(from, to);
     fromParams->addLink(from, linkIdx);
     toParams->addLink(to, linkIdx);
