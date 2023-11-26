@@ -12,6 +12,8 @@ Shape {
     property bool isFromInput: false
     property ZParam dstparam
     property ZParam srcparam
+    property string nodeId
+    property string paramName
 
     property alias thickness: path.strokeWidth
     property alias color: path.strokeColor

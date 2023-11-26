@@ -34,7 +34,9 @@ public:
     ~GraphModel();
     Q_INVOKABLE LinkModel* getLinkModel() const { return m_linkModel; }
     Q_INVOKABLE int indexFromId(const QString& ident) const;
-
+    Q_INVOKABLE void addLink(const QString& fromNodeStr, const QString& fromParamStr,
+        const QString& toNodeStr, const QString& toParamStr);
+    Q_INVOKABLE bool removeLink(const QString& nodeIdent, const QString& paramName, bool bInput);
     //QAbstractItemModel
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& child) const override;
@@ -53,6 +55,7 @@ public:
     //NodesModel:
     void appendNode(QString ident, QString name, const QPointF& pos);
     void removeNode(QString ident);
+    
     void addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam);
 
     //test functions:

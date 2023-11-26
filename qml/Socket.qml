@@ -11,6 +11,7 @@ Item {
 
     property bool input : true
     property var sockOnClicked
+    property string paramName
 
     implicitWidth: shape.xline + shape.xradius
     implicitHeight: 2 * shape.yradius + shape.yline

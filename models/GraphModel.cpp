@@ -25,6 +25,30 @@ int GraphModel::indexFromId(const QString& ident) const
     return m_id2Row[ident];
 }
 
+void GraphModel::addLink(const QString& fromNodeStr, const QString& fromParamStr,
+    const QString& toNodeStr, const QString& toParamStr)
+{
+    addLink(qMakePair(fromNodeStr, fromParamStr), qMakePair(toNodeStr, toParamStr));
+}
+
+bool GraphModel::removeLink(const QString& nodeIdent, const QString& paramName, bool bInput)
+{
+    if (bInput)
+    {
+        int index = indexFromId(nodeIdent);
+        ParamsModel* paramM = params(createIndex(index, 0));
+        QModelIndex idx = paramM->paramIdx(paramName, bInput);
+        int nRow = paramM->removeLink(idx);
+        if (nRow != -1)
+        {
+            m_linkModel->removeRows(nRow, 1);
+            //QVariantList({ item->pos.x(), item->pos.y() })
+            return true;
+        }
+    }
+    return false;
+}
+
 QModelIndex GraphModel::parent(const QModelIndex& child) const
 {
     return QModelIndex();

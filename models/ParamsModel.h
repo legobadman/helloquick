@@ -35,6 +35,7 @@ public:
     void setNodeIdx(const QModelIndex& nodeIdx);
     QModelIndex paramIdx(const QString& name, bool bInput) const;
     void addLink(const QModelIndex& paramIdx, const QPersistentModelIndex& linkIdx);
+    int removeLink(const QModelIndex& paramIdx);
     void addParam(const ParamItem& param);
 
 private:

@@ -39,6 +39,7 @@ RowLayout {
             _socketObj = component.createObject(qmlparam)
             _socketObj.input = isInput
             _socketObj.sockOnClicked = qmlparam.sockOnClicked
+            _socketObj.paramName = qmlparam.arg_name
         }
     }
 
