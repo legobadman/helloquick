@@ -31,22 +31,29 @@ void GraphModel::addLink(const QString& fromNodeStr, const QString& fromParamStr
     addLink(qMakePair(fromNodeStr, fromParamStr), qMakePair(toNodeStr, toParamStr));
 }
 
-bool GraphModel::removeLink(const QString& nodeIdent, const QString& paramName, bool bInput)
+QVariant GraphModel::removeLink(const QString& nodeIdent, const QString& paramName, bool bInput)
 {
     if (bInput)
     {
-        int index = indexFromId(nodeIdent);
-        ParamsModel* paramM = params(createIndex(index, 0));
-        QModelIndex idx = paramM->paramIdx(paramName, bInput);
-        int nRow = paramM->removeLink(idx);
+        ParamsModel* toParamM = m_nodes[nodeIdent]->params;
+        QModelIndex toIndex = toParamM->paramIdx(paramName, bInput);
+        int nRow = toParamM->removeLink(toIndex);
+       
         if (nRow != -1)
         {
+            QModelIndex linkIndex = m_linkModel->index(nRow);
+            QVariant var = m_linkModel->data(linkIndex, ROLE_LINK_FROMPARAM_INFO);
+            QVariantList varList = var.toList();
+
+            ParamsModel* fromParamM = m_nodes[varList[0].toString()]->params;
+            QModelIndex fromIndex = fromParamM->paramIdx(varList[1].toString(), varList[2].toBool());
+            fromParamM->removeLink(fromIndex);
+     
             m_linkModel->removeRows(nRow, 1);
-            //QVariantList({ item->pos.x(), item->pos.y() })
-            return true;
+            return var;
         }
     }
-    return false;
+    return QVariant();
 }
 
 QModelIndex GraphModel::parent(const QModelIndex& child) const
@@ -124,10 +131,13 @@ void GraphModel::addLink(QPair<QString, QString> fromParam, QPair<QString, QStri
 
     from = fromParams->paramIdx(fromParam.second, false);
     to = toParams->paramIdx(toParam.second, true);
- 
-    QModelIndex linkIdx = m_linkModel->addLink(from, to);
-    fromParams->addLink(from, linkIdx);
-    toParams->addLink(to, linkIdx);
+    
+    if (from.isValid() && to.isValid())
+    {
+        QModelIndex linkIdx = m_linkModel->addLink(from, to);
+        fromParams->addLink(from, linkIdx);
+        toParams->addLink(to, linkIdx);
+    }
 }
 
 void GraphModel::appendNode(QString ident, QString name, const QPointF& pos)

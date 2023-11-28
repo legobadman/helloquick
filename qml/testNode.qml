@@ -94,7 +94,7 @@ ApplicationWindow {
                     var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)
                     if (tempEdge.visible) {//固定边
                         tempEdge.visible = false
-                        if (tempEdge.isFromInput != sockObj.input /* && from different node*/){
+                        if (tempEdge.isFromInput != sockObj.input && tempEdge.nodeId != ident){
                             if (!tempEdge.isFromInput){
                                 nodesModel.addLink(tempEdge.nodeId, tempEdge.paramName, ident, sockObj.paramName)
                             }
@@ -104,10 +104,29 @@ ApplicationWindow {
                         }
                     }
                     else if (sockObj.input) {
-                        var res = nodesModel.removeLink(ident, sockObj.paramName, true)
-                        if (res){
-                            //getSocketObj
-                            console.log("reset tempEdge...")
+                        console.log("sockobject is input...")
+                        var fromParam = nodesModel.removeLink(ident, sockObj.paramName, true)
+                        if (fromParam != undefined && fromParam.length > 0){
+                            tempEdge.visible = true
+                            tempEdge.nodeId = fromParam[0]
+                            tempEdge.isFromInput = false
+                            tempEdge.paramName = fromParam[1]
+                            tempEdge.point2x = Qt.binding(function() {
+                                    var outNode = nodes.getZNode(fromParam[0])
+                                    var outSocketObj = outNode.getSocketObj(fromParam[1], false)    
+                                    var pt = outNode.mapFromItem(outSocketObj, 0, 0)
+                                    return pt.x + outNode.x
+                                })
+
+                            tempEdge.point2y = Qt.binding(function() {
+                                var outNode = nodes.getZNode(fromParam[0])
+                                var outSocketObj = outNode.getSocketObj(fromParam[1], false)  
+                                var pt = outNode.mapFromItem(outSocketObj, 0, 0)
+                                return pt.y + outNode.y
+                            })
+                            tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
+                         
                         }
                         else{
                             tempEdge.visible = true

@@ -103,7 +103,7 @@ void ParamsModel::addLink(const QModelIndex& paramIdx, const QPersistentModelInd
 
 int ParamsModel::removeLink(const QModelIndex& paramIdx)
 {
-    QList<QPersistentModelIndex> links = m_items[paramIdx.row()].links;
+    QList<QPersistentModelIndex>& links = m_items[paramIdx.row()].links;
     if (links.isEmpty())
         return -1;
 
