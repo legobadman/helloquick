@@ -128,3 +128,8 @@ bool ParamsModel::removeRows(int row, int count, const QModelIndex& parent)
     endRemoveRows();
     return true;
 }
+
+int ParamsModel::getParamlinkCount(const QModelIndex& paramIdx)
+{
+    return m_items[paramIdx.row()].links.size();
+}

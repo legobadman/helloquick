@@ -38,6 +38,8 @@ public:
     int removeLink(const QModelIndex& paramIdx);
     void addParam(const ParamItem& param);
 
+    int getParamlinkCount(const QModelIndex& paramIdx);
+
 private:
     QPersistentModelIndex m_nodeIdx;
     QVector<ParamItem> m_items;

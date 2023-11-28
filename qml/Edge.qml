@@ -53,11 +53,13 @@ Shape {
 
         PathCubic {
             id: cubic
-            property real ctrlPtDist: 30
+            property real ctrlPtDist: 60
             x: root.endX
             y: root.endY
-            relativeControl1X: ctrlPtDist; relativeControl1Y: 0
-            control2X: x - ctrlPtDist; control2Y: y
+            relativeControl1X: ctrlPtDist; 
+            relativeControl1Y: 0
+            control2X: x - ctrlPtDist; 
+            control2Y: y
         }
     }
 

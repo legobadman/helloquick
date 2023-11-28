@@ -134,6 +134,8 @@ void GraphModel::addLink(QPair<QString, QString> fromParam, QPair<QString, QStri
     
     if (from.isValid() && to.isValid())
     {
+        if (toParams->getParamlinkCount(to) > 0)
+            removeLink(toParam.first, toParam.second, true);
         QModelIndex linkIdx = m_linkModel->addLink(from, to);
         fromParams->addLink(from, linkIdx);
         toParams->addLink(to, linkIdx);

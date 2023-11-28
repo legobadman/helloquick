@@ -111,21 +111,21 @@ ApplicationWindow {
                             tempEdge.nodeId = fromParam[0]
                             tempEdge.isFromInput = false
                             tempEdge.paramName = fromParam[1]
-                            tempEdge.point2x = Qt.binding(function() {
+                            tempEdge.point1x = Qt.binding(function() {
                                     var outNode = nodes.getZNode(fromParam[0])
                                     var outSocketObj = outNode.getSocketObj(fromParam[1], false)    
                                     var pt = outNode.mapFromItem(outSocketObj, 0, 0)
                                     return pt.x + outNode.x
                                 })
 
-                            tempEdge.point2y = Qt.binding(function() {
+                            tempEdge.point1y = Qt.binding(function() {
                                 var outNode = nodes.getZNode(fromParam[0])
                                 var outSocketObj = outNode.getSocketObj(fromParam[1], false)  
                                 var pt = outNode.mapFromItem(outSocketObj, 0, 0)
                                 return pt.y + outNode.y
                             })
-                            tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
-                            tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
+                            tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY }) 
                          
                         }
                         else{
