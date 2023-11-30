@@ -13,6 +13,8 @@ Rectangle {
     property int repeaterIndex
     
     property var sockOnClicked
+    property var sockOnExitHover
+    property var sockOnEnterHover
     property var destoryTempEdge
 
     color: "#303030"
@@ -111,6 +113,8 @@ Rectangle {
                         arg_isinput: input
                         arg_control: control
                         sockOnClicked: qmlnode.sockOnClicked
+                        sockOnExitHover: qmlnode.sockOnExitHover
+                        sockOnEnterHover: qmlnode.sockOnEnterHover
                     }
                 }
             }

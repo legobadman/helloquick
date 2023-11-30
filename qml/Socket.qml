@@ -11,6 +11,8 @@ Item {
 
     property bool input : true
     property var sockOnClicked
+    property var sockOnExitHover
+    property var sockOnEnterHover
     property string paramName
 
     implicitWidth: shape.xline + shape.xradius
@@ -126,17 +128,31 @@ Item {
 
     MouseArea {
         id: socketMouseArea
-        anchors.fill: parent
         property double factor: 1.15
         layer.enabled: true
         layer.samples: 8
-        hoverEnabled: false
+        hoverEnabled: true
+        propagateComposedEvents: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         drag.threshold: 0
+        anchors.centerIn: parent
+        width: parent.width * 4
+        height: parent.height * 2
+
 
         onClicked: function() {
-            console.log("on clicked socket")
+            //console.log("on clicked socket")
             comp.sockOnClicked(comp)
+        }
+
+        onEntered: function() {
+            //console.log("onEnter......")
+            comp.sockOnEnterHover(comp)
+        }
+
+        onExited: function() {
+            //console.log("onExited......")
+            comp.sockOnExitHover(comp)
         }
     }
 }
