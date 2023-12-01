@@ -55,8 +55,17 @@ Rectangle {
             var input = qmlnode.isTempEdgeFromInput();
             if (input != null) {   
                 var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !input);
-                qmlnode.sockOnEnterHover(socketobj)
+                if (socketobj != null){
+                  // console.log("enter onMouseYChanged,max near socket param:", socketobj.paramName)
+                   qmlnode.sockOnEnterHover(socketobj)
+                }
+                else
+                    console.log("find near socketObj error")
             }
+        }
+
+        onExited: {
+            console.log("<------------onExited node----------->")
         }
 
         ColumnLayout  {
@@ -116,12 +125,16 @@ Rectangle {
 
                     function getNearSocket(point, isinput) {
                         var idxList = qmlnode.paramModel.getIndexList(isinput)
-                        if (idxs != undefined && idxList.length > 0){
+                        if (idxList != undefined && idxList.length > 0){
                             var nearSockObj = params.itemAt(idxList[0]).getSocketItemObj();
+                            var nearPos = mouseArea1.mapFromItem(nearSockObj, 0, 0)
                             for (var i = 1; i < idxList.length; ++i ){
-                                var socketobj = params.itemAt(idxList[i]).getSocketItemObj()
-                                if (Math.abs(nearSockObj.y - point.y)  > Math.abs(socketObj.y - point.y))
-                                    nearSockObj = socketobj
+                                var socketObj = params.itemAt(idxList[i]).getSocketItemObj()
+                                var sockNodePos = mouseArea1.mapFromItem(socketObj, 0, 0)
+                                if (Math.abs(nearPos.y - point.y)  > Math.abs(sockNodePos.y - point.y)){
+                                    nearSockObj = socketObj
+                                    nearPos = sockNodePos
+                                }
                             }
                             return nearSockObj
                         }

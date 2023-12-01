@@ -91,7 +91,7 @@ ApplicationWindow {
                 x: pos[0]
                 y: pos[1]
                 isTempEdgeFromInput: () => {
-                    if (tempEdge.visible)
+                    if (tempEdge.visible && ident != tempEdge.nodeId)
                         return tempEdge.isFromInput
                     return null
                 }
