@@ -16,6 +16,7 @@ Rectangle {
     property var sockOnExitHover
     property var sockOnEnterHover
     property var destoryTempEdge
+    property var isTempEdgeFromInput
 
     color: "#303030"
 
@@ -34,6 +35,7 @@ Rectangle {
         id: mouseArea1
         anchors.fill: parent
         drag.target: parent
+        hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
             //qmlnode.beginDrag = Qt.point(qmlnode.x, qmlnode.y);
@@ -48,6 +50,15 @@ Rectangle {
             qmlnode.forceActiveFocus()  //make all textInput focus out
             qmlnode.destoryTempEdge();
         }
+
+        onMouseYChanged: {
+            var input = qmlnode.isTempEdgeFromInput();
+            if (input != null) {   
+                var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !input);
+                qmlnode.sockOnEnterHover(socketobj)
+            }
+        }
+
         ColumnLayout  {
             id: mainLayout
             spacing: 0
@@ -99,6 +110,22 @@ Rectangle {
                             //console.log(idx)
                             return params.itemAt(idx)
                         } else {
+                            return null
+                        }
+                    }
+
+                    function getNearSocket(point, isinput) {
+                        var idxList = qmlnode.paramModel.getIndexList(isinput)
+                        if (idxs != undefined && idxList.length > 0){
+                            var nearSockObj = params.itemAt(idxList[0]).getSocketItemObj();
+                            for (var i = 1; i < idxList.length; ++i ){
+                                var socketobj = params.itemAt(idxList[i]).getSocketItemObj()
+                                if (Math.abs(nearSockObj.y - point.y)  > Math.abs(socketObj.y - point.y))
+                                    nearSockObj = socketobj
+                            }
+                            return nearSockObj
+                        }
+                        else{
                             return null
                         }
                     }

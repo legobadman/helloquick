@@ -90,6 +90,12 @@ ApplicationWindow {
                 paramModel: params
                 x: pos[0]
                 y: pos[1]
+                isTempEdgeFromInput: () => {
+                    if (tempEdge.visible)
+                        return tempEdge.isFromInput
+                    return null
+                }
+
                 sockOnEnterHover: (sockObj) => {
                     if (tempEdge.visible && tempEdge.isFromInput != sockObj.input && tempEdge.nodeId != ident) {
                         var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)

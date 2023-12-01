@@ -41,6 +41,17 @@ int ParamsModel::indexFromName(const QString& name, bool bInput) const
     return -1;
 }
 
+QVariant ParamsModel::getIndexList(bool bInput) const
+{
+    QVariantList varList;
+    for (int i = 0; i < m_items.length(); i++) {
+        if (m_items[i].bInput == bInput) {
+            varList.append(i);
+        }
+    }
+    return varList;
+}
+
 bool ParamsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     ParamItem& param = m_items[index.row()];

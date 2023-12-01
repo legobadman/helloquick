@@ -45,47 +45,36 @@ ApplicationWindow {
     }*/
 
     Rectangle {
-        width: 40
-        height: 60
-        color: "blue"
-    
+        width: 100
+        height: 100
+        color: "yellow"
+        
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            propagateComposedEvents: true
-            onClicked: {
-                mouse.accepted = false
-                 console.log("....big mousearea click....")
+            onPositionChanged: {
+                console.log("onPositionChanged big mouse")
             }
-            onPressed: {
-                mouse.accepted = false
-            }
-            onReleased: {
-                mouse.accepted = false
-            }
+           
+            Rectangle {
+                color: "blue"
+                width: 50
+                height: 50
 
-            onEntered: {
-                console.log("....big onEnter....")
-            }
-        }
-
-        Button {
-            x: 20
-            y:20
-            width:20
-            height: 20
-            text: "button"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    mouse.accepted = false
-                    console.log("....small mousearea click....")
-                }
-                onEntered: {
-                    console.log("....small onEnter....")
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onPositionChanged: {
+                        console.log("onPositionChanged small mouse")
+                    }
+                    onClicked: {
+                         console.log("click small mouse")
+                    }
                 }
             }
         }
+
+        
      }
 
 }

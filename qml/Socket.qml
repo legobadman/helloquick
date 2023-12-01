@@ -132,10 +132,11 @@ Item {
         layer.enabled: true
         layer.samples: 8
         hoverEnabled: true
-        propagateComposedEvents: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         drag.threshold: 0
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: -parent.width
+        anchors.verticalCenter: parent.verticalCenter
         width: parent.width * 4
         height: parent.height * 2
 
@@ -146,7 +147,7 @@ Item {
         }
 
         onEntered: function() {
-            //console.log("onEnter......")
+            //console.log("onEnter socket......")
             comp.sockOnEnterHover(comp)
         }
 
