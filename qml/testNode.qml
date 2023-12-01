@@ -90,26 +90,76 @@ ApplicationWindow {
                 paramModel: params
                 x: pos[0]
                 y: pos[1]
+                isTempEdgeFromInput: () => {
+                    if (tempEdge.visible && ident != tempEdge.nodeId)
+                        return tempEdge.isFromInput
+                    return null
+                }
+
+                sockOnEnterHover: (sockObj) => {
+                    if (tempEdge.visible && tempEdge.isFromInput != sockObj.input && tempEdge.nodeId != ident) {
+                        var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)
+                        if (sockObj.input){
+                            tempEdge.point2x = sockGlobalPos.x
+                            tempEdge.point2y = sockGlobalPos.y + sockObj.height/2
+                        }
+                        else {
+                            tempEdge.point1x = sockGlobalPos.x
+                            tempEdge.point1y = sockGlobalPos.y + sockObj.height/2
+                        }
+                    }
+                }
+
+                sockOnExitHover: (sockObj) => {
+                    if (tempEdge.visible && tempEdge.isFromInput != sockObj.input && tempEdge.nodeId != ident) {
+                        if (sockObj.input){
+                            tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY })
+                        }
+                        else {
+                            tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY })
+                        }
+                    }
+                }
+
                 sockOnClicked: (sockObj) => {
                     var sockGlobalPos = graphEditorArea.mapFromItem(sockObj, 0, 0)
-                    if (tempEdge.visible) {//固定边
+                    //点击将临时边连接变成固定边
+                    if (tempEdge.visible && tempEdge.isFromInput != sockObj.input && tempEdge.nodeId != ident){
                         tempEdge.visible = false
-                        if (tempEdge.isFromInput != sockObj.input /* && from different node*/){
-                            if (!tempEdge.isFromInput){
-                                nodesModel.addLink(tempEdge.nodeId, tempEdge.paramName, ident, sockObj.paramName)
-                            }
-                            else {
-                                nodesModel.addLink(ident, sockObj.paramName, tempEdge.nodeId, tempEdge.paramName)
-                            }
+                        if (!tempEdge.isFromInput){
+                            nodesModel.addLink(tempEdge.nodeId, tempEdge.paramName, ident, sockObj.paramName)
+                        }
+                        else {
+                            nodesModel.addLink(ident, sockObj.paramName, tempEdge.nodeId, tempEdge.paramName)
                         }
                     }
                     else if (sockObj.input) {
-                        var res = nodesModel.removeLink(ident, sockObj.paramName, true)
-                        if (res){
-                            //getSocketObj
-                            console.log("reset tempEdge...")
+                        var fromParam = nodesModel.removeLink(ident, sockObj.paramName, true)
+                        if (fromParam != undefined && fromParam.length > 0){//删除边并变成临时边
+                            tempEdge.visible = true
+                            tempEdge.nodeId = fromParam[0]
+                            tempEdge.isFromInput = false
+                            tempEdge.paramName = fromParam[1]
+                            tempEdge.point1x = Qt.binding(function() {
+                                    var outNode = nodes.getZNode(fromParam[0])
+                                    var outSocketObj = outNode.getSocketObj(fromParam[1], false)    
+                                    var pt = outNode.mapFromItem(outSocketObj, 0, 0)
+                                    return pt.x + outNode.x
+                                })
+
+                            tempEdge.point1y = Qt.binding(function() {
+                                var outNode = nodes.getZNode(fromParam[0])
+                                var outSocketObj = outNode.getSocketObj(fromParam[1], false)  
+                                var pt = outNode.mapFromItem(outSocketObj, 0, 0)
+                                return pt.y + outNode.y + outSocketObj.height/2
+                            })
+                            tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
+                            tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY }) 
+                         
                         }
-                        else{
+                        else{//从 input 到 output 的临时边
                             tempEdge.visible = true
                             tempEdge.nodeId = ident
                             tempEdge.isFromInput = true
@@ -117,16 +167,16 @@ ApplicationWindow {
                             tempEdge.point1x = Qt.binding(function() { return graphEditorArea.mouseX })
                             tempEdge.point1y = Qt.binding(function() { return graphEditorArea.mouseY }) 
                             tempEdge.point2x = sockGlobalPos.x
-                            tempEdge.point2y = sockGlobalPos.y
+                            tempEdge.point2y = sockGlobalPos.y + sockObj.height/2
                         }
                     }
-                    else {
+                    else {//从output 到input的临时边
                         tempEdge.visible = true
                         tempEdge.nodeId = ident
                         tempEdge.isFromInput = false
                         tempEdge.paramName = sockObj.paramName
                         tempEdge.point1x = sockGlobalPos.x
-                        tempEdge.point1y = sockGlobalPos.y
+                        tempEdge.point1y = sockGlobalPos.y + sockObj.height/2
                         tempEdge.point2x = Qt.binding(function() { return graphEditorArea.mouseX })
                         tempEdge.point2y = Qt.binding(function() { return graphEditorArea.mouseY })
                     }
@@ -180,7 +230,7 @@ ApplicationWindow {
                                     var socketObj = outNode.getSocketObj(fromParam[1], false)
                                     var pt = outNode.mapFromItem(socketObj, 0, 0)
                                     //console.log("y=", pt.y)
-                                    return pt.y + outNode.y
+                                    return pt.y+ socketObj.height/2 + outNode.y
                                 })
 
                                 point2x = Qt.binding(function() {
@@ -198,7 +248,7 @@ ApplicationWindow {
 
                                     var socketObj = inNode.getSocketObj(toParam[1], true)
                                     var pt = inNode.mapFromItem(socketObj, 0, 0)
-                                    return inNode.y + pt.y
+                                    return inNode.y + pt.y +  socketObj.height/2
                                 })
                             }
                         }

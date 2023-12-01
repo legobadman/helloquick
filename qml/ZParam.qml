@@ -14,7 +14,8 @@ RowLayout {
     property var _socketObj : null
 
     property var sockOnClicked
-
+    property var sockOnExitHover
+    property var sockOnEnterHover
     spacing: 10
 
     /*
@@ -26,7 +27,7 @@ RowLayout {
 
     function getSocketPos() {
         //console.log(qmlparam.parent.x + _socketObj.x)
-        return {'x': _socketObj.x, 'y': _socketObj.y}
+        return {'x': _socketObj.x, 'y': _socketObj.y + _socketObj.height/2}
     }
 
     function getSocketItemObj() {
@@ -39,6 +40,8 @@ RowLayout {
             _socketObj = component.createObject(qmlparam)
             _socketObj.input = isInput
             _socketObj.sockOnClicked = qmlparam.sockOnClicked
+            _socketObj.sockOnExitHover = qmlparam.sockOnExitHover
+            _socketObj.sockOnEnterHover = qmlparam.sockOnEnterHover
             _socketObj.paramName = qmlparam.arg_name
         }
     }

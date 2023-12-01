@@ -13,7 +13,10 @@ Rectangle {
     property int repeaterIndex
     
     property var sockOnClicked
+    property var sockOnExitHover
+    property var sockOnEnterHover
     property var destoryTempEdge
+    property var isTempEdgeFromInput
 
     color: "#303030"
 
@@ -32,6 +35,7 @@ Rectangle {
         id: mouseArea1
         anchors.fill: parent
         drag.target: parent
+        hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
             //qmlnode.beginDrag = Qt.point(qmlnode.x, qmlnode.y);
@@ -46,6 +50,24 @@ Rectangle {
             qmlnode.forceActiveFocus()  //make all textInput focus out
             qmlnode.destoryTempEdge();
         }
+
+        onMouseYChanged: {
+            var input = qmlnode.isTempEdgeFromInput();
+            if (input != null) {   
+                var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !input);
+                if (socketobj != null){
+                  // console.log("enter onMouseYChanged,max near socket param:", socketobj.paramName)
+                   qmlnode.sockOnEnterHover(socketobj)
+                }
+                else
+                    console.log("find near socketObj error")
+            }
+        }
+
+        onExited: {
+            console.log("<------------onExited node----------->")
+        }
+
         ColumnLayout  {
             id: mainLayout
             spacing: 0
@@ -101,6 +123,26 @@ Rectangle {
                         }
                     }
 
+                    function getNearSocket(point, isinput) {
+                        var idxList = qmlnode.paramModel.getIndexList(isinput)
+                        if (idxList != undefined && idxList.length > 0){
+                            var nearSockObj = params.itemAt(idxList[0]).getSocketItemObj();
+                            var nearPos = mouseArea1.mapFromItem(nearSockObj, 0, 0)
+                            for (var i = 1; i < idxList.length; ++i ){
+                                var socketObj = params.itemAt(idxList[i]).getSocketItemObj()
+                                var sockNodePos = mouseArea1.mapFromItem(socketObj, 0, 0)
+                                if (Math.abs(nearPos.y - point.y)  > Math.abs(sockNodePos.y - point.y)){
+                                    nearSockObj = socketObj
+                                    nearPos = sockNodePos
+                                }
+                            }
+                            return nearSockObj
+                        }
+                        else{
+                            return null
+                        }
+                    }
+
                     delegate: ZParam {
                         required property string name
                         required property string type
@@ -111,6 +153,8 @@ Rectangle {
                         arg_isinput: input
                         arg_control: control
                         sockOnClicked: qmlnode.sockOnClicked
+                        sockOnExitHover: qmlnode.sockOnExitHover
+                        sockOnEnterHover: qmlnode.sockOnEnterHover
                     }
                 }
             }

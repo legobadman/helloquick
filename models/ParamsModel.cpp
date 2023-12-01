@@ -41,6 +41,17 @@ int ParamsModel::indexFromName(const QString& name, bool bInput) const
     return -1;
 }
 
+QVariant ParamsModel::getIndexList(bool bInput) const
+{
+    QVariantList varList;
+    for (int i = 0; i < m_items.length(); i++) {
+        if (m_items[i].bInput == bInput) {
+            varList.append(i);
+        }
+    }
+    return varList;
+}
+
 bool ParamsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     ParamItem& param = m_items[index.row()];
@@ -103,7 +114,7 @@ void ParamsModel::addLink(const QModelIndex& paramIdx, const QPersistentModelInd
 
 int ParamsModel::removeLink(const QModelIndex& paramIdx)
 {
-    QList<QPersistentModelIndex> links = m_items[paramIdx.row()].links;
+    QList<QPersistentModelIndex>& links = m_items[paramIdx.row()].links;
     if (links.isEmpty())
         return -1;
 
@@ -127,4 +138,9 @@ bool ParamsModel::removeRows(int row, int count, const QModelIndex& parent)
     m_items.removeAt(row);
     endRemoveRows();
     return true;
+}
+
+int ParamsModel::getParamlinkCount(const QModelIndex& paramIdx)
+{
+    return m_items[paramIdx.row()].links.size();
 }
