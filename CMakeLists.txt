@@ -30,6 +30,14 @@ set(source
     znodeitem.h
     zparamitem.cpp
     zparamitem.h
+    qanGrid.cpp
+    qanGrid.h
+    qanNavigable.cpp
+    qanNavigable.h
+    qanNavigablePreview.cpp
+    qanNavigablePreview.h
+    qanLineGrid.cpp
+    qanLineGrid.h
 
     models/GraphModel.cpp
     models/GraphModel.h
@@ -53,7 +61,6 @@ set(source
     qml/Edge.qml
     qml/NodePair.qml
     qml/testParam.qml
-    qml/testNode.qml
     qml/testGraphEditor.qml
     qml/CustomBorder.qml
     qml/StatusBtn.qml
@@ -79,6 +86,10 @@ set(source
     qml/controls/ZVec3Editor.qml
     qml/controls/ZVec4Editor.qml
     qml/controls/VecEdit.qml
+    qml/image.qml
+    qml/navigable.qml
+    qml/grid.qml
+    qml/LineGrid.qml
 )
 
 add_executable(${PROJECT_NAME} ${source} "qml.qrc" "res/icons.qrc")

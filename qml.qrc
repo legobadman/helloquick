@@ -11,7 +11,6 @@
         <file>qml/ZNode.qml</file>
         <file>qml/Edge.qml</file>
         <file>qml/testParam.qml</file>
-        <file>qml/testNode.qml</file>
         <file>qml/CustomBorder.qml</file>
         <file>qml/StatusBtn.qml</file>
         <file>qml/StatusImgBtn.qml</file>
@@ -24,7 +23,6 @@
         <file>qml/FillSpacer.qml</file>
         <file>qml/FixSpacer.qml</file>
         <file>qml/Graph.qml</file>
-
         <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZCheckBox.qml</file>
         <file>qml/controls/ZColorBtn.qml</file>
@@ -37,19 +35,14 @@
         <file>qml/controls/ZVec3Editor.qml</file>
         <file>qml/controls/ZVec4Editor.qml</file>
         <file>qml/controls/VecEdit.qml</file>
-
         <file>images/qt-logo.png</file>
         <file>images/qt-logo@2x.png</file>
         <file>images/qt-logo@3x.png</file>
         <file>images/qt-logo@4x.png</file>
-        <!--<file>font/MiSans/MiSans-Thin.ttf</file>
-        <file>font/MiSans/MiSans-Semibold.ttf</file>
-        <file>font/MiSans/MiSans-Regular.ttf</file>
-        <file>font/MiSans/MiSans-Normal.ttf</file>
-        <file>font/MiSans/MiSans-Medium.ttf</file>
-        <file>font/MiSans/MiSans-Light.ttf</file>
-        <file>font/MiSans/MiSans-Heavy.ttf</file>
-        <file>font/MiSans/MiSans-ExtraLight.ttf</file>
-        <file>font/MiSans/MiSans-Demibold.ttf</file>-->
+        <file>qml/navigable.qml</file>
+        <file>qml/grid.qml</file>
+        <file>qml/image.qml</file>
+        <file>res/image.jpg</file>
+        <file>qml/LineGrid.qml</file>
     </qresource>
 </RCC>
