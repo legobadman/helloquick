@@ -12,5 +12,8 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
-    GraphEditor{}
+    Graph{
+        width: 1180
+        height: 900
+    }
 }

@@ -1,5 +1,5 @@
 #include "GraphModel.h"
-#include "common.h"
+#include "../common.h"
 #include "Descriptors.h"
 
 
