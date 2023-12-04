@@ -6,6 +6,10 @@
 #include "quick_parameter.h"
 #include "quick_node.h"
 #include "models/GraphModel.h"
+#include "qanNavigable.h"
+#include "qanGrid.h"
+#include "qanLineGrid.h"
+#include "qanNavigablePreview.h"
 #include <QFontDatabase>
 #include <QSurfaceFormat>
 
@@ -49,6 +53,12 @@ int main(int argc, char *argv[])
     qRegisterMetaType<ParamsModel*>("ParamsModel*");
     qRegisterMetaType<LinkModel*>("LinkModel*");
 
+    qmlRegisterType<qan::Navigable>("QuickQanava", 2, 0, "Navigable");
+    qmlRegisterType<qan::NavigablePreview >("QuickQanava", 2, 0, "NavigablePreview");
+    qmlRegisterType<qan::OrthoGrid>("QuickQanava", 2, 0, "OrthoGrid");
+    qmlRegisterType<qan::impl::GridLine>("QuickQanava", 2, 0, "GridLine");
+    qmlRegisterType<qan::LineGrid>("QuickQanava", 2, 0, "AbstractLineGrid");
+
     qmlRegisterUncreatableType<ParamControl>("zeno.enum", 1, 0, "ParamControl", "Not creatable as it is an enum type");
 
     //QQmlComponent comp(&engine, QUrl(QStringLiteral("qrc:/qml/ZParam2.qml")));
@@ -58,8 +68,7 @@ int main(int argc, char *argv[])
     GraphModel* graphM = new GraphModel("main");
     graphM->appendNode("17d801b-CreateCube", "CreateCube", { 100, 100 });
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
-
-    //graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
+    graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [=]() {
@@ -108,8 +117,8 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("nodesModel", graphM);
 
-    engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
-    //engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/navigable.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

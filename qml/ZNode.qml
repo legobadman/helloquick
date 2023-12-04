@@ -13,10 +13,11 @@ Rectangle {
     property int repeaterIndex
     
     property var sockOnClicked
-    property var sockOnExitHover
-    property var sockOnEnterHover
+    property var mismatchSocket
+    property var matchSocket
     property var destoryTempEdge
-    property var isTempEdgeFromInput
+    property var addLink
+    property var getTempEdge
 
     color: "#303030"
 
@@ -48,24 +49,34 @@ Rectangle {
                 showNodeMenu(qmlnode, Qt.point(mouse.x, mouse.y))
             }
             qmlnode.forceActiveFocus()  //make all textInput focus out
-            qmlnode.destoryTempEdge();
+            
+            var edge = qmlnode.getTempEdge()
+            if (edge.visible && edge.nodeId != arg_ident && edge.isMatch) {
+                var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !edge.isFromInput);
+                if (socketobj != null)
+                    qmlnode.addLink(socketobj)
+            }
+            else {
+                qmlnode.destoryTempEdge();
+            }
         }
 
         onMouseYChanged: {
-            var input = qmlnode.isTempEdgeFromInput();
-            if (input != null) {   
-                var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !input);
-                if (socketobj != null){
-                  // console.log("enter onMouseYChanged,max near socket param:", socketobj.paramName)
-                   qmlnode.sockOnEnterHover(socketobj)
-                }
-                else
-                    console.log("find near socketObj error")
+            var edge = qmlnode.getTempEdge()
+            //console.log("edge.nodeId = " + edge.nodeId + "arg_ident = " + arg_ident)
+            if (edge.visible && edge.nodeId != arg_ident) {   
+                var socketobj = params.getNearSocket(Qt.point(mouse.x, mouse.y), !edge.isFromInput);
+                if (socketobj != null)
+                   qmlnode.matchSocket(socketobj)
+            }
+            else if(edge.visible){
+                qmlnode.mismatchSocket()
             }
         }
 
         onExited: {
-            console.log("<------------onExited node----------->")
+             if (qmlnode.getTempEdge().visible)
+                qmlnode.mismatchSocket()
         }
 
         ColumnLayout  {
@@ -153,8 +164,8 @@ Rectangle {
                         arg_isinput: input
                         arg_control: control
                         sockOnClicked: qmlnode.sockOnClicked
-                        sockOnExitHover: qmlnode.sockOnExitHover
-                        sockOnEnterHover: qmlnode.sockOnEnterHover
+                        mismatchSocket: qmlnode.mismatchSocket
+                        matchSocket: qmlnode.matchSocket
                     }
                 }
             }

@@ -14,8 +14,8 @@ RowLayout {
     property var _socketObj : null
 
     property var sockOnClicked
-    property var sockOnExitHover
-    property var sockOnEnterHover
+    property var mismatchSocket
+    property var matchSocket
     spacing: 10
 
     /*
@@ -40,8 +40,8 @@ RowLayout {
             _socketObj = component.createObject(qmlparam)
             _socketObj.input = isInput
             _socketObj.sockOnClicked = qmlparam.sockOnClicked
-            _socketObj.sockOnExitHover = qmlparam.sockOnExitHover
-            _socketObj.sockOnEnterHover = qmlparam.sockOnEnterHover
+            _socketObj.mismatchSocket = qmlparam.mismatchSocket
+            _socketObj.matchSocket = qmlparam.matchSocket
             _socketObj.paramName = qmlparam.arg_name
         }
     }

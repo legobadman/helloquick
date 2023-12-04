@@ -10,10 +10,10 @@ Shape {
     property real point2x
     property real point2y
     property bool isFromInput: false
-    property ZParam dstparam
-    property ZParam srcparam
+
     property string nodeId
     property string paramName
+    property bool isMatch: false
 
     property alias thickness: path.strokeWidth
     property alias color: path.strokeColor
@@ -42,10 +42,10 @@ Shape {
         startX: root.startX
         startY: root.startY
         fillColor: "transparent"
-        strokeColor: "#3E3E3E"
+        strokeColor: "#4E9EF4"
         //strokeStyle: edge !== undefined && ((edge.src !== undefined && edge.src.isOutput) || edge.dst === undefined) ? ShapePath.SolidLine : ShapePath.DashLine
         strokeStyle: ShapePath.SolidLine
-        strokeWidth: 1
+        strokeWidth: 4
         // final visual width of this path (never below 1)
         readonly property real visualWidth: Math.max(strokeWidth, 1)
         dashPattern: [6/visualWidth, 4/visualWidth]

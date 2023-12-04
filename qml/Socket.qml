@@ -11,8 +11,8 @@ Item {
 
     property bool input : true
     property var sockOnClicked
-    property var sockOnExitHover
-    property var sockOnEnterHover
+    property var mismatchSocket
+    property var matchSocket
     property string paramName
 
     implicitWidth: shape.xline + shape.xradius
@@ -148,12 +148,12 @@ Item {
 
         onEntered: function() {
             //console.log("onEnter socket......")
-            comp.sockOnEnterHover(comp)
+            comp.matchSocket(comp)
         }
 
         onExited: function() {
             //console.log("onExited......")
-            comp.sockOnExitHover(comp)
+            comp.mismatchSocket()
         }
     }
 }
