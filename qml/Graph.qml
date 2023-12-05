@@ -287,7 +287,7 @@ Item {
                 thickness: 4
                 isFromInput: false
             }
-        }
+        } // EndItem
 
         
     }

@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     //ZQuickParam* item = qobject_cast<ZQuickParam*>(myObject);
 
     GraphModel* graphM = new GraphModel("main");
-    graphM->appendNode("17d801b-CreateCube", "CreateCube", { 100, 100 });
+    graphM->appendNode("17d801b-CreateCube", "CreateCube", { 0, 0 });
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
     graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("nodesModel", graphM);
 
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
-    engine.load(QUrl(QStringLiteral("qrc:/qml/navigable.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
