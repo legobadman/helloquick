@@ -45,6 +45,7 @@ Rectangle {
             
         }
         onClicked: {
+            //console.log("<--------click node----------->")
             if (mouse.button == Qt.RightButton) {
                 showNodeMenu(qmlnode, Qt.point(mouse.x, mouse.y))
             }

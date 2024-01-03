@@ -52,12 +52,13 @@ Navigable::Navigable(QQuickItem* parent) :
             this->_containerItem->setHeight(cr.height());
         }
     });
-    setAcceptedMouseButtons(Qt::RightButton | Qt::LeftButton);
+    //setAcceptedMouseButtons(Qt::RightButton | Qt::LeftButton);
     setTransformOrigin(TransformOrigin::TopLeft);
 
     _defaultGrid = std::make_unique<qan::Grid>();
     setGrid(_defaultGrid.get());
     setAcceptTouchEvents(true);
+   // installEventFilter(_containerItem);
 }
 //-----------------------------------------------------------------------------
 
@@ -101,6 +102,24 @@ void    Navigable::centerOn(QQuickItem* item)
 
     updateGrid();
 }
+
+//bool Navigable::eventFilter(QObject* obj, QEvent* event)
+//{
+//    if (obj == _containerItem) {
+//        if (event->type() == QEvent::MouseButtonRelease) {
+//            QKeyEvent* keyEvent = static_cast(event);
+//            qDebug() << "Ate key press" << keyEvent->key();
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+//    }
+//    else {
+//        // pass the event on to the parent class 
+//        return QMainWindow::eventFilter(obj, event);
+//    }
+//}
 
 void    Navigable::centerOnPosition(QPointF position)
 {

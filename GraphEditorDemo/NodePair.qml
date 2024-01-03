@@ -19,8 +19,8 @@ Item {
         height: 50
         z: mouseArea1.drag.active ||  mouseArea1.pressed ? 2 : 1
         color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
-        x: Math.random() * (win.width / 2 - 100)
-        y: Math.random() * (win.height - 100)
+        x: Math.random() * (100000)
+        y: Math.random() * (100000)
         property point beginDrag
         property bool caught: false
         border { width:2; color: "white" }
@@ -53,8 +53,8 @@ Item {
         height: 50
         z: mouseArea2.drag.active ||  mouseArea2.pressed ? 2 : 1
         color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
-        x: Math.random() * (win.width / 2 - 100)
-        y: Math.random() * (win.height - 100)
+        x: Math.random() * 100000
+        y: Math.random() * 100000
         property point beginDrag
         property bool caught: false
         border { width:2; color: "white" }

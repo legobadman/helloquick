@@ -309,11 +309,15 @@ signals:
 
 protected:
     //! Called when the mouse is clicked in the container (base implementation empty).
-    virtual void    navigableClicked(QPointF pos) { Q_UNUSED(pos); }
+    virtual void    navigableClicked(QPointF pos) 
+    { 
+        Q_UNUSED(pos); 
+    }
     //! Called when the mouse is right clicked in the container (base implementation empty).
     virtual void    navigableRightClicked(QPointF pos) { Q_UNUSED(pos); }
     //! Called when the container item is scaled (zoomed) or panned (base implementation empty).
     virtual void    navigableContainerItemModified() { }
+    //bool eventFilter(QObject* object, QEvent* event) override;
 
 public:
     //! True when the navigable conctent area is actually dragged.

@@ -90,6 +90,7 @@ set(source
     qml/navigable.qml
     qml/grid.qml
     qml/LineGrid.qml
+    qml/tabItem.qml
 )
 
 add_executable(${PROJECT_NAME} ${source} "qml.qrc" "res/icons.qrc")
