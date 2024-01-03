@@ -91,6 +91,7 @@ set(source
     qml/grid.qml
     qml/LineGrid.qml
     qml/tabItem.qml
+    qml/main2.qml
 )
 
 add_executable(${PROJECT_NAME} ${source} "qml.qrc" "res/icons.qrc")

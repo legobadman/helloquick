@@ -15,8 +15,7 @@ ApplicationWindow {
 
     TabView {
         id: tabView
-        width: 400
-        height: 400
+        anchors.fill: parent
 
         Repeater{
             id: tabs
@@ -36,25 +35,22 @@ ApplicationWindow {
                     
         style: TabViewStyle {
             tab: Item {
-                    implicitWidth: Math.round(textitem.implicitWidth + image.width + 20)
-                    implicitHeight: Math.round(textitem.implicitHeight + 10)
+                    implicitWidth: Math.round(textitem.implicitWidth + image.width + 40)
+                    implicitHeight: Math.round(textitem.implicitHeight + 20)
                     Rectangle {
                         anchors.fill: parent
                         anchors.bottomMargin: 2
-                        radius: 1
+                        radius: 0
                         border.width: 1
-                        border.color: "#AAA"
-                        color:"transparent"
+                        border.color: "#2B2B2B"
+                        //color:"transparent"
                     }
                     Rectangle {
                         anchors.fill: parent
                         anchors.margins: 1
-                        anchors.bottomMargin: styleData.selected ? 0 : 2
-                        radius: 1
-                        gradient: Gradient{
-                            GradientStop{position:0; color:styleData.selected?"#EDEDED":"#E3E3E3"}
-                            GradientStop{position:1; color:styleData.selected?"#DCDCDC":"#D3D3D3"}
-                        }
+                        anchors.bottomMargin: styleData.selected ? 0 : 0
+                        radius: 0
+                        color: styleData.selected ? "#1F1F1F" : "#181818"
                     }
                     Text {
                         id: textitem
@@ -63,6 +59,7 @@ ApplicationWindow {
                         anchors.rightMargin: 4
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
+                        color: styleData.selected ? "#FFFFFF" : "#7A9D9D"
                         text: styleData.title
                         elide: Text.ElideMiddle
                     }
@@ -74,7 +71,7 @@ ApplicationWindow {
                         anchors.margins: 2
                         anchors.leftMargin: 4
                         fillMode: Image.PreserveAspectFit
-                        source: "../res/icons/icon_tabTest.png" // control.getTab(styleData.index).icon
+                        source: "qrc:/icons/icon_tabTest.png" // control.getTab(styleData.index).icon
                     }
                 }//end Item
         }//end TabViewStyle
