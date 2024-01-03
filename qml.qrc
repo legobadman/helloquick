@@ -46,5 +46,21 @@
         <file>qml/LineGrid.qml</file>
         <file>qml/colleapse.qml</file>
         <file>qml/main2.qml</file>
+        <file>qml/autoload/Main.qml</file>
+        <file>qml/autoload/TabControl/HTabBar.qml</file>
+        <file>qml/autoload/TabControl/HTabButton.qml</file>
+        <file>qml/autoload/TabControl/HTabLayout.qml</file>
+        <file>qml/autoload/TabControl/TabBarRepeater.qml</file>
+        <file>qml/autoload/TabControl/TabController.qml</file>
+        <file>qml/autoload/TabControl/Tabs.qml</file>
+        <file>qml/autoload/TabPages/DemoPage1/DemoPage1.qml</file>
+        <file>qml/autoload/TabPages/DemoPage2/DemoPage2.qml</file>
+        <file>qml/autoload/TabPages/DemoPage3/DemoPage3.qml</file>
+        <file>qml/autoload/TabPages/DemoPage4/DemoPage4.qml</file>
+        <file>qml/autoload/TabPages/DemoPage5/DemoPage5.qml</file>
+        <file>qml/autoload/TabPages/DemoPage6/DemoPage6.qml</file>
+        <file>qml/autoload/TabPages/DemoPage7/DemoPage7.qml</file>
+        <file>qml/autoload/TabPages/Navigation/Navigation.qml</file>
+        <file>qml/autoload/TabPages/TabPage.qml</file>
     </qresource>
 </RCC>

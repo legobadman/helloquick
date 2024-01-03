@@ -92,6 +92,24 @@ set(source
     qml/LineGrid.qml
     qml/tabItem.qml
     qml/main2.qml
+
+    #autoload
+    qml/autoload/Main.qml
+    qml/autoload/TabControl/HTabBar.qml
+    qml/autoload/TabControl/HTabButton.qml
+    qml/autoload/TabControl/HTabLayout.qml
+    qml/autoload/TabControl/TabBarRepeater.qml
+    qml/autoload/TabControl/TabController.qml
+    qml/autoload/TabControl/Tabs.qml
+    qml/autoload/TabPages/DemoPage1/DemoPage1.qml
+    qml/autoload/TabPages/DemoPage2/DemoPage2.qml
+    qml/autoload/TabPages/DemoPage3/DemoPage3.qml
+    qml/autoload/TabPages/DemoPage4/DemoPage4.qml
+    qml/autoload/TabPages/DemoPage5/DemoPage5.qml
+    qml/autoload/TabPages/DemoPage6/DemoPage6.qml
+    qml/autoload/TabPages/DemoPage7/DemoPage7.qml
+    qml/autoload/TabPages/Navigation/Navigation.qml
+    qml/autoload/TabPages/TabPage.qml
 )
 
 add_executable(${PROJECT_NAME} ${source} "qml.qrc" "res/icons.qrc")

@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main2.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/autoload/Main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
