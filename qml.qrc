@@ -44,5 +44,6 @@
         <file>qml/image.qml</file>
         <file>res/image.jpg</file>
         <file>qml/LineGrid.qml</file>
+        <file>qml/colleapse.qml</file>
     </qresource>
 </RCC>

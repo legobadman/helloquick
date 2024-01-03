@@ -13,6 +13,13 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
+    /*
+    colleapse 
+    {
+        width: 1180
+        height: 900
+    }*/
+
     GraphEditor {
         width: 1180
         height: 900

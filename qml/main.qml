@@ -13,68 +13,70 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
-   /* 
-   MyTestQmlName {
-        id: myTest
-        onM_a_changed: {
-            console.log("onM_a_changed")
-        }
-    }
+    TabView {
+        id: tabView
+        width: 400
+        height: 400
 
-    MyTestQmlName {
-        id: myTest2
-    }
-
-    Button {
-        id: button
-        text: "按钮:" + myTest.a_value
-        onClicked: {
-            console.log("修改a_value为6.")
-            myTest.a_value = 6;
-        }
-    }
-
-    Button {
-        id: button2
-        y: 100
-        text: "按钮:" + myTest2.a_value
-        onClicked: {
-            console.log("修改a_value为6.")
-            myTest2.a_value = 6;
-        }
-    }*/
-
-    Rectangle {
-        width: 100
-        height: 100
-        color: "yellow"
-        
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onPositionChanged: {
-                console.log("onPositionChanged big mouse")
+        Repeater{
+            id: tabs
+            model: ListModel{
+                //tabModel
+                ListElement{ text: "Dog"; iconPath: "icon_tabTest.png" }
+                ListElement{ text: "cat"; iconPath: "icon_tabTest.png" }
+                ListElement{ text: "aa"; iconPath: "icon_tabTest.png" }
             }
-           
-            Rectangle {
-                color: "blue"
-                width: 50
-                height: 50
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onPositionChanged: {
-                        console.log("onPositionChanged small mouse")
-                    }
-                    onClicked: {
-                         console.log("click small mouse")
-                    }
-                }
+            delegate: Tab {
+                required property string text
+                required property string iconPath
+                title: text
+                //icon: iconPath
             }
         }
-
-        
-     }
-
-}
+                    
+        style: TabViewStyle {
+            tab: Item {
+                    implicitWidth: Math.round(textitem.implicitWidth + image.width + 20)
+                    implicitHeight: Math.round(textitem.implicitHeight + 10)
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.bottomMargin: 2
+                        radius: 1
+                        border.width: 1
+                        border.color: "#AAA"
+                        color:"transparent"
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        anchors.bottomMargin: styleData.selected ? 0 : 2
+                        radius: 1
+                        gradient: Gradient{
+                            GradientStop{position:0; color:styleData.selected?"#EDEDED":"#E3E3E3"}
+                            GradientStop{position:1; color:styleData.selected?"#DCDCDC":"#D3D3D3"}
+                        }
+                    }
+                    Text {
+                        id: textitem
+                        anchors.fill: parent
+                        anchors.leftMargin: 4 + image.width
+                        anchors.rightMargin: 4
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        text: styleData.title
+                        elide: Text.ElideMiddle
+                    }
+                    Image {
+                        id: image
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.margins: 2
+                        anchors.leftMargin: 4
+                        fillMode: Image.PreserveAspectFit
+                        source: "../res/icons/icon_tabTest.png" // control.getTab(styleData.index).icon
+                    }
+                }//end Item
+        }//end TabViewStyle
+    } //end TabView
+}//end ApplicationWindow
