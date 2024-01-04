@@ -16,13 +16,12 @@
         <file>qml/StatusImgBtn.qml</file>
         <file>qml/StatusBtnGroup.qml</file>
         <file>qml/StatusBtnSeperator.qml</file>
-        <file>qml/GraphEditor.qml</file>
+        <file>qml/Graph.qml</file>
         <file>qml/Socket.qml</file>
         <file>qml/SocketName.qml</file>
         <file>qml/testGraphEditor.qml</file>
         <file>qml/FillSpacer.qml</file>
         <file>qml/FixSpacer.qml</file>
-        <file>qml/Graph.qml</file>
         <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZCheckBox.qml</file>
         <file>qml/controls/ZColorBtn.qml</file>
@@ -62,5 +61,17 @@
         <file>qml/autoload/TabPages/DemoPage7/DemoPage7.qml</file>
         <file>qml/autoload/TabPages/Navigation/Navigation.qml</file>
         <file>qml/autoload/TabPages/TabPage.qml</file>
+        <file>qml/autoload-static/Main.qml</file>
+        <file>qml/autoload-static/TabView_.qml</file>
+        <file>qml/autoload-static/TabViewController.qml</file>
+        <file>qml/autoload-static/TabBar_/HTabBar.qml</file>
+        <file>qml/autoload-static/TabBar_/BarController.qml</file>
+        <file>qml/autoload-static/TabBar_/TabButton_.qml</file>
+        <file>qml/autoload-static/TabPages/DemoPage1.qml</file>
+        <file>qml/autoload-static/TabPages/Page1.qml</file>
+        <file>qml/autoload-static/TabPages/Page2.qml</file>
+        <file>qml/autoload-static/TabPages/Page3.qml</file>
+        <file>qml/autoload-static/TabPages/Navigation.qml</file>
+        <file>qml/autoload-static/TabPages/PagesController.qml</file>
     </qresource>
 </RCC>

@@ -66,6 +66,68 @@ void Descriptors::initDescs()
         }
     );
 
+    m_descs.insert("SubInput",
+        { "SubInput",
+            {
+                {"defl", ""},
+                {"name", "string", ParamControl::Lineddit},
+                {"type", "string", ParamControl::Lineddit},
+                {"SRC", ""}
+            },
+            {
+                {"port", ""},
+                {"hasValue", ""},
+                {"DST", ""}
+            }
+        }
+    );
+
+    m_descs.insert("SubOutput",
+        {
+            "SubOutput",
+            {
+                {"defl", ""},
+                {"name", "string", ParamControl::Lineddit},
+                {"type", "string", ParamControl::Lineddit},
+                {"port", ""},
+                {"SRC", ""}
+            },
+            {
+                {"DST", ""}
+            }
+        }
+    );
+
+    m_descs.insert("NumericInt",
+        {
+            "NumericInt",
+            {
+                {"value", "int", ParamControl::Lineddit},
+                {"SRC", ""}
+            },
+            {
+                {"value", "int"},
+                {"DST", ""}
+            }
+        }
+    );
+
+    m_descs.insert("NumericOperator",
+        {
+            "NumericOperator",
+            {
+                {"op_type", "string", ParamControl::Lineddit},
+                {"lhs", "int", ParamControl::Lineddit},
+                {"rhs", "int", ParamControl::Lineddit},
+                {"SRC", ""}
+            },
+            {
+                {"ret", "int"},
+                {"DST", ""}
+            }
+        }
+    );
+
     m_descs.insert("GetFrameNum",
         {
             "GetFrameNum",

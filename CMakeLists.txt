@@ -67,7 +67,6 @@ set(source
     qml/StatusImgBtn.qml
     qml/StatusBtnGroup.qml
     qml/StatusBtnSeperator.qml
-    qml/GraphEditor.qml
     qml/Graph.qml
     qml/Socket.qml
     qml/SocketName.qml
@@ -94,6 +93,19 @@ set(source
     qml/main2.qml
 
     #autoload
+    qml/autoload-static/Main.qml
+    qml/autoload-static/TabView_.qml
+    qml/autoload-static/TabViewController.qml
+    qml/autoload-static/TabBar_/HTabBar.qml
+    qml/autoload-static/TabBar_/BarController.qml
+    qml/autoload-static/TabBar_/TabButton_.qml
+    qml/autoload-static/TabPages/DemoPage1.qml
+    qml/autoload-static/TabPages/Page1.qml
+    qml/autoload-static/TabPages/Page2.qml
+    qml/autoload-static/TabPages/Page3.qml
+    qml/autoload-static/TabPages/Navigation.qml
+    qml/autoload-static/TabPages/PagesController.qml
+
     qml/autoload/Main.qml
     qml/autoload/TabControl/HTabBar.qml
     qml/autoload/TabControl/HTabButton.qml

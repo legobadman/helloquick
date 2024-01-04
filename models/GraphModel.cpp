@@ -88,6 +88,13 @@ QVariant GraphModel::data(const QModelIndex& index, int role) const
     {
         return QVariant::fromValue(item->params);
     }
+    case ROLE_SUBGRAPH:
+    {
+        if (item->pSubgraph)
+            return QVariant::fromValue(item->params);
+        else
+            return QVariant();
+    }
     default:
         return QVariant();
     }
@@ -148,6 +155,7 @@ void GraphModel::appendNode(QString ident, QString name, const QPointF& pos)
     NODE_DESCRIPTOR desc = pDescs->getDescriptor(name);
 
     int nRows = m_nodes.size();
+
     beginInsertRows(QModelIndex(), nRows, nRows);
 
     NodeItem* pItem = new NodeItem;
@@ -166,6 +174,27 @@ void GraphModel::appendNode(QString ident, QString name, const QPointF& pos)
     pItem->params->setNodeIdx(createIndex(nRows, 0));
 }
 
+void GraphModel::appendSubgraphNode(QString ident, QString name, NODE_DESCRIPTOR desc, GraphModel* subgraph, const QPointF& pos)
+{
+    int nRows = m_nodes.size();
+    beginInsertRows(QModelIndex(), nRows, nRows);
+
+    NodeItem* pItem = new NodeItem;
+    pItem->setParent(this);
+    pItem->ident = ident;
+    pItem->name = name;
+    pItem->pos = pos;
+    pItem->params = new ParamsModel(desc);
+    pItem->pSubgraph = subgraph;
+
+    m_row2id[nRows] = ident;
+    m_id2Row[ident] = nRows;
+    m_nodes.insert(ident, pItem);
+
+    endInsertRows();
+    pItem->params->setNodeIdx(createIndex(nRows, 0));
+}
+
 void GraphModel::removeNode(QString ident)
 {
     int row = m_id2Row[ident];
@@ -180,6 +209,7 @@ QHash<int, QByteArray> GraphModel::roleNames() const
     roles[ROLE_PARAMS] = "params";
     roles[ROLE_LINKS] = "linkModel";
     roles[ROLE_OBJPOS] = "pos";
+    roles[ROLE_SUBGRAPH] = "subgraph";
     return roles;
 }
 
@@ -231,6 +261,11 @@ ParamsModel* GraphModel::params(QModelIndex nodeIdx)
 {
     NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
     return item->params;
+}
+
+GraphModel* GraphModel::subgraph(QModelIndex nodeIdx) {
+    NodeItem* item = m_nodes[m_row2id[nodeIdx.row()]];
+    return item->pSubgraph;
 }
 
 QModelIndex GraphModel::nodeIdx(const QString& ident) const

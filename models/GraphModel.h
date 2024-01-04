@@ -8,15 +8,17 @@
 #include "ParamsModel.h"
 #include "LinkModel.h"
 
+class GraphModel;
 
 struct NodeItem : public QObject
 {
     QString ident;
     QString name;
-    ParamsModel* params;
+    ParamsModel* params = nullptr;
     QPointF pos;
 
     //for subgraph:
+    GraphModel* pSubgraph = nullptr;
     //NodesModel* m_pSubgraphModel;
 };
 
@@ -54,6 +56,7 @@ public:
 
     //NodesModel:
     void appendNode(QString ident, QString name, const QPointF& pos);
+    void appendSubgraphNode(QString ident, QString name, NODE_DESCRIPTOR desc, GraphModel* subgraph, const QPointF& pos);
     void removeNode(QString ident);
     
     void addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam);
@@ -63,6 +66,7 @@ public:
     void removeParam(QModelIndex nodeIdx, int row);
     void removeLink(int row);
     ParamsModel* params(QModelIndex nodeIdx);
+    GraphModel* subgraph(QModelIndex nodeIdx);
 
 private:
     QModelIndex nodeIdx(const QString& ident) const;

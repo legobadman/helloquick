@@ -70,6 +70,80 @@ int main(int argc, char *argv[])
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
     graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
+
+    GraphModel* subg2 = nullptr, *subg = nullptr;
+    {
+        subg = new GraphModel("aaa");
+        {
+            GraphModel* ssubg = new GraphModel("bbb");
+            ssubg->appendNode("0x84g654-SubInput", "SubInput", {0,0});
+            ssubg->appendNode("0x865754-SubOutput", "SubOutput", { 400, 400 });
+            ssubg->addLink({"0x84g654-SubInput", "port"}, {"0x865754-SubOutput", "port"});
+            subg->appendSubgraphNode("a75hs832-bbb", "bbb", {
+                "bbb",
+                {
+                    {"input", "int", ParamControl::Lineddit},
+                    {"SRC", ""}
+                },
+                {
+                    {"output", "int"},
+                    {"DST", ""}
+                }
+            }, ssubg, { 150, 150 });
+        }
+        subg->appendNode("74235gtbeer-SubInput", "SubInput", { 0, 0 });
+        subg->appendNode("445gfdggre-SubOutput", "SubOutput", { 800, 800 });
+        subg->addLink({"74235gtbeer-SubInput", "port"}, {"445gfdggre-SubOutput", "port"});
+
+        graphM->appendSubgraphNode("cgrewg-aaa", "aaa", {
+            "aaa",
+            {
+                {"code", "string", ParamControl::Multiline},
+                {"params", "dict"},
+                {"SRC", ""}
+            },
+            {
+                {"result", ""},
+                {"DST", ""}
+            }
+        }, subg, {400, 0});
+
+        subg2 = new GraphModel("aaa");
+        {
+            GraphModel* ssubg = new GraphModel("bbb");
+            ssubg->appendNode("abn64fs-SubInput", "SubInput", { 0,0 });
+            ssubg->appendNode("gv287tr-SubOutput", "SubOutput", { 400, 400 });
+            ssubg->addLink({ "abn64fs-SubInput", "port" }, { "gv287tr-SubOutput", "port" });
+            subg2->appendSubgraphNode("6435hege-bbb", "bbb", {
+                "bbb",
+                {
+                    {"input", "int", ParamControl::Lineddit},
+                    {"SRC", ""}
+                },
+                {
+                    {"output", "int"},
+                    {"DST", ""}
+                }
+            }, ssubg, { 150, 150 });
+        }
+        subg2->appendNode("abr37465-SubInput", "SubInput", { 0, 0 });
+        subg2->appendNode("jnmtyret-SubOutput", "SubOutput", { 800, 800 });
+        subg2->addLink({ "abr37465-SubInput", "port" }, { "jnmtyret-SubOutput", "port" });
+
+        graphM->appendSubgraphNode("ghr56443g-aaa", "aaa", {
+            "aaa",
+            {
+                {"code", "string", ParamControl::Multiline},
+                {"params", "dict"},
+                {"SRC", ""}
+            },
+            {
+                {"result", ""},
+                {"DST", ""}
+            }
+        }, subg2, { 900, 0 });
+    }
+
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [=]() {
         if (false) {
@@ -119,7 +193,7 @@ int main(int argc, char *argv[])
 
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
-    engine.load(QUrl(QStringLiteral("qrc:/qml/autoload/Main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/autoload-static/Main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

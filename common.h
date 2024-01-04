@@ -13,6 +13,7 @@ enum MODEL_ROLE {
     ROLE_OBJID = Qt::UserRole + 1,
     ROLE_OBJNAME,
     ROLE_PARAMS,        //paramsmodel
+    ROLE_SUBGRAPH,
     ROLE_PARAM_TYPE,
     ROLE_PARAM_CONTROL,
     ROLE_ISINPUT,

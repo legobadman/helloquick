@@ -10,6 +10,7 @@ Rectangle {
     property string arg_ident
     property string arg_name     //arg_name是为了避免和model导出的name重名
     property variant paramModel
+    property variant subgModel
     property int repeaterIndex
     
     property var sockOnClicked
@@ -87,7 +88,7 @@ Rectangle {
 
             Rectangle {
                 id: node_header
-                color: "#246283"
+                color: qmlnode.subgModel != null ? "#1D5F51" : "#246283"
                 implicitWidth: header_layout.implicitWidth
                 implicitHeight: 66
                 Layout.fillWidth: true

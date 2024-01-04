@@ -20,9 +20,10 @@ ApplicationWindow {
         height: 900
     }*/
 
-    GraphEditor {
+    Graph {
         width: 1180
         height: 900
+        graphModel: nodesModel
     }
 
     /*
