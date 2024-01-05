@@ -25,7 +25,7 @@ ColumnLayout{
     Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        color: "#FFF"
+        color: "#1F1F1F"
 
             
         Component.onCompleted: {

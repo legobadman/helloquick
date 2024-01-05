@@ -11,8 +11,8 @@ import "./container/TabView"
 ApplicationWindow {
     id: appWindow
     visible: true
-    width: 640
-    height: 480
+    width: 1700
+    height: 960
     title: qsTr("Hello World")
 
     // 定义全局对象，通过 app 来访问
@@ -40,19 +40,40 @@ ApplicationWindow {
         }
     }
 
-    RowLayout {
+    SplitView {
         id: mainLayout
         spacing: 10
         anchors.fill: parent
+        orientation: Qt.Horizontal
 
-        TreeView {
-            id: defaultTreeView
+        handle: Item {
+            implicitWidth: 2
+
+            Rectangle {
+                implicitWidth: 2
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: parent.height
+
+                color: SplitHandle.hovered ? "#00ff00" : "#2B2B2B"
+            }
+        }
+
+        Rectangle {
+            SplitView.preferredWidth: 340
             anchors.top: parent.top
-            model: treeModel
+            color: "#181818"
+
+            TreeView {
+                id: defaultTreeView
+                anchors.fill: parent
+                model: treeModel
+                color: "#FFFFFF"    //文字颜色
+            }
         }
 
         TabView_ { 
             id: tabEditor
+            SplitView.fillWidth: true
         }
     }
 
