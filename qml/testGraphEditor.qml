@@ -47,11 +47,13 @@ ApplicationWindow {
 
         TreeView {
             id: defaultTreeView
-            //anchors.fill: parent
+            anchors.top: parent.top
             model: treeModel
         }
 
-        TabView_ { }
+        TabView_ { 
+            id: tabEditor
+        }
     }
 
     /*

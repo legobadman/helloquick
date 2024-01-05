@@ -246,7 +246,7 @@ int main(int argc, char *argv[])
     return app.exec();
 #else
     QTreeView tree;
-    tree.setModel(pTree2);
+    tree.setModel(pTreeModel);
     tree.show();
     return app.exec();
 #endif
