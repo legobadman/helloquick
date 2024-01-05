@@ -61,17 +61,19 @@
         <file>qml/autoload/TabPages/DemoPage7/DemoPage7.qml</file>
         <file>qml/autoload/TabPages/Navigation/Navigation.qml</file>
         <file>qml/autoload/TabPages/TabPage.qml</file>
-        <file>qml/autoload-static/Main.qml</file>
-        <file>qml/autoload-static/TabView_.qml</file>
-        <file>qml/autoload-static/TabViewController.qml</file>
-        <file>qml/autoload-static/TabBar_/HTabBar.qml</file>
-        <file>qml/autoload-static/TabBar_/BarController.qml</file>
-        <file>qml/autoload-static/TabBar_/TabButton_.qml</file>
-        <file>qml/autoload-static/TabPages/DemoPage1.qml</file>
-        <file>qml/autoload-static/TabPages/Page1.qml</file>
-        <file>qml/autoload-static/TabPages/Page2.qml</file>
-        <file>qml/autoload-static/TabPages/Page3.qml</file>
-        <file>qml/autoload-static/TabPages/Navigation.qml</file>
-        <file>qml/autoload-static/TabPages/PagesController.qml</file>
+        <file>qml/container/TabView/Main.qml</file>
+        <file>qml/container/TabView/TabView_.qml</file>
+        <file>qml/container/TabView/TabViewController.qml</file>
+        <file>qml/container/TabView/TabBar_/HTabBar.qml</file>
+        <file>qml/container/TabView/TabBar_/BarController.qml</file>
+        <file>qml/container/TabView/TabBar_/TabButton_.qml</file>
+        <file>qml/container/TabView/TabPages/DemoPage1.qml</file>
+        <file>qml/container/TabView/TabPages/Page1.qml</file>
+        <file>qml/container/TabView/TabPages/Page2.qml</file>
+        <file>qml/container/TabView/TabPages/Page3.qml</file>
+        <file>qml/container/TabView/TabPages/Navigation.qml</file>
+        <file>qml/container/TabView/TabPages/PagesController.qml</file>
+        <file>qml/view/TreeView.qml</file>
+        <file>qml/view/TreeViewItem.qml</file>
     </qresource>
 </RCC>

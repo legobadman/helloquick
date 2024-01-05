@@ -8,7 +8,7 @@ import "TabBar_"
 
 Rectangle {
     
-    anchors.fill: parent
+    //anchors.fill: parent
     
 
     // 上下布局，即标签栏在顶部

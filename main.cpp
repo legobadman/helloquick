@@ -6,19 +6,25 @@
 #include "quick_parameter.h"
 #include "quick_node.h"
 #include "models/GraphModel.h"
+#include "models/tree_model.h"
+#include "models/tree_item.h"
 #include "qanNavigable.h"
 #include "qanGrid.h"
 #include "qanLineGrid.h"
 #include "qanNavigablePreview.h"
 #include <QFontDatabase>
 #include <QSurfaceFormat>
+#include <QTreeView>
+#include "models/GraphsTreeModel.h"
+
+//#define TEST_TREE_MODEL
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QSurfaceFormat format;
     format.setSamples(16);
@@ -69,7 +75,6 @@ int main(int argc, char *argv[])
     graphM->appendNode("17d801b-CreateCube", "CreateCube", { 0, 0 });
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
     graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
-
 
     GraphModel* subg2 = nullptr, *subg = nullptr;
     {
@@ -144,6 +149,45 @@ int main(int argc, char *argv[])
         }, subg2, { 900, 0 });
     }
 
+    GraphsTreeModel* pTreeModel = new GraphsTreeModel(graphM);
+
+    QStandardItemModel* pTree2 = new QStandardItemModel;
+    QStandardItem* pItem = new QStandardItem("item1");
+    {
+        QStandardItem* pItem_ = new QStandardItem("item11");
+        QStandardItem* pItem__ = new QStandardItem("item12");
+        pItem->appendRow(pItem_);
+        pItem->appendRow(pItem__);
+    }
+    QStandardItem* pItem2 = new QStandardItem("item2");
+    {
+        QStandardItem* pItem_ = new QStandardItem("item21");
+        QStandardItem* pItem__ = new QStandardItem("item22");
+        pItem2->appendRow(pItem_);
+        pItem2->appendRow(pItem__);
+    }
+    pTree2->appendRow(pItem);
+    pTree2->appendRow(pItem2);
+
+
+    auto america = new TreeItem("America");
+    auto asia = new TreeItem("Asia");
+    auto europe = new TreeItem("Europe");
+    auto brazil = new TreeItem("Brazil");
+    auto canada = new TreeItem("Canada");
+    auto italy = new TreeItem("Italy");
+    auto portugal = new TreeItem("Portugal");
+
+    auto treeModel = new TreeModel();
+    treeModel->addTopLevelItem(america);
+    treeModel->addTopLevelItem(asia);
+    treeModel->addTopLevelItem(europe);
+    treeModel->addItem(america, brazil);
+    treeModel->addItem(america, canada);
+    treeModel->addItem(europe, italy);
+    treeModel->addItem(europe, portugal);
+
+
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [=]() {
         if (false) {
@@ -189,13 +233,21 @@ int main(int argc, char *argv[])
     });
     timer.start(1000);
 
+#ifndef TEST_TREE_MODEL
     engine.rootContext()->setContextProperty("nodesModel", graphM);
+    engine.rootContext()->setContextProperty("treeModel", pTreeModel);
 
     //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
-    //engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
-    engine.load(QUrl(QStringLiteral("qrc:/qml/autoload-static/Main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/qml/autoload-static/Main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
     return app.exec();
+#else
+    QTreeView tree;
+    tree.setModel(pTree2);
+    tree.show();
+    return app.exec();
+#endif
 }

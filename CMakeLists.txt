@@ -41,12 +41,19 @@ set(source
 
     models/GraphModel.cpp
     models/GraphModel.h
+    models/GraphsTreeModel.cpp
+    models/GraphsTreeModel.h
     models/ParamsModel.cpp
     models/ParamsModel.h
     models/Descriptors.cpp
     models/Descriptors.h
     models/LinkModel.cpp
     models/LinkModel.h
+    #
+    models/tree_model.cpp
+    models/tree_model.h
+    models/tree_item.cpp
+    models/tree_item.h
 
     #qml:
     qml/layout.qml
@@ -93,18 +100,18 @@ set(source
     qml/main2.qml
 
     #autoload
-    qml/autoload-static/Main.qml
-    qml/autoload-static/TabView_.qml
-    qml/autoload-static/TabViewController.qml
-    qml/autoload-static/TabBar_/HTabBar.qml
-    qml/autoload-static/TabBar_/BarController.qml
-    qml/autoload-static/TabBar_/TabButton_.qml
-    qml/autoload-static/TabPages/DemoPage1.qml
-    qml/autoload-static/TabPages/Page1.qml
-    qml/autoload-static/TabPages/Page2.qml
-    qml/autoload-static/TabPages/Page3.qml
-    qml/autoload-static/TabPages/Navigation.qml
-    qml/autoload-static/TabPages/PagesController.qml
+    #qml/autoload-static/Main.qml
+    #qml/autoload-static/TabView_.qml
+    #qml/autoload-static/TabViewController.qml
+    #qml/autoload-static/TabBar_/HTabBar.qml
+    #qml/autoload-static/TabBar_/BarController.qml
+    #qml/autoload-static/TabBar_/TabButton_.qml
+    #qml/autoload-static/TabPages/DemoPage1.qml
+    #qml/autoload-static/TabPages/Page1.qml
+    #qml/autoload-static/TabPages/Page2.qml
+    #qml/autoload-static/TabPages/Page3.qml
+    #qml/autoload-static/TabPages/Navigation.qml
+    #qml/autoload-static/TabPages/PagesController.qml
 
     qml/autoload/Main.qml
     qml/autoload/TabControl/HTabBar.qml

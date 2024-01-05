@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractItemModel>
+#include <QAbstractListModel>
 #include <QString>
 #include <QQuickItem>
 #include "ParamsModel.h"
@@ -12,6 +13,9 @@ class GraphModel;
 
 struct NodeItem : public QObject
 {
+    Q_OBJECT
+
+public:
     QString ident;
     QString name;
     ParamsModel* params = nullptr;
@@ -19,10 +23,12 @@ struct NodeItem : public QObject
 
     //for subgraph:
     GraphModel* pSubgraph = nullptr;
-    //NodesModel* m_pSubgraphModel;
+
+    NodeItem(QObject* parent) : QObject(parent) {}
 };
 
-class GraphModel : public QAbstractItemModel
+//为什么不base StandardModel，是因为StandardItem本身还得挂载一个模型，有点冗余，干脆自己实现一个图treemodel.
+class GraphModel : public QAbstractListModel
 {
     Q_OBJECT
     typedef QAbstractItemModel _base;
@@ -39,12 +45,8 @@ public:
     Q_INVOKABLE void addLink(const QString& fromNodeStr, const QString& fromParamStr,
         const QString& toNodeStr, const QString& toParamStr);
     Q_INVOKABLE QVariant removeLink(const QString& nodeIdent, const QString& paramName, bool bInput);
-    //QAbstractItemModel
-    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex& child) const override;
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-    bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
     QModelIndexList match(const QModelIndex& start, int role,
@@ -58,7 +60,6 @@ public:
     void appendNode(QString ident, QString name, const QPointF& pos);
     void appendSubgraphNode(QString ident, QString name, NODE_DESCRIPTOR desc, GraphModel* subgraph, const QPointF& pos);
     void removeNode(QString ident);
-    
     void addLink(QPair<QString, QString> fromParam, QPair<QString, QString> toParam);
 
     //test functions:

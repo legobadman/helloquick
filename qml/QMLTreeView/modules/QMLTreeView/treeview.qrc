@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/modules/QMLTreeView">
+        <file>qmldir</file>
+        <file>TreeViewItem.qml</file>
+        <file>TreeView.qml</file>
+    </qresource>
+</RCC>

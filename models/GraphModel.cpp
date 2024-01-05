@@ -4,20 +4,14 @@
 
 
 GraphModel::GraphModel(const QString& graphName, QObject* parent)
-    : m_graphName(graphName)
+    : QAbstractListModel(parent)
+    , m_graphName(graphName)
 {
     m_linkModel = new LinkModel(this);
 }
 
 GraphModel::~GraphModel()
 {
-}
-
-QModelIndex GraphModel::index(int row, int column, const QModelIndex& parent) const
-{
-    if (row < 0 || row >= rowCount())
-        return QModelIndex();
-    return createIndex(row, 0);
 }
 
 int GraphModel::indexFromId(const QString& ident) const
@@ -56,24 +50,9 @@ QVariant GraphModel::removeLink(const QString& nodeIdent, const QString& paramNa
     return QVariant();
 }
 
-QModelIndex GraphModel::parent(const QModelIndex& child) const
-{
-    return QModelIndex();
-}
-
 int GraphModel::rowCount(const QModelIndex& parent) const
 {
     return m_nodes.size();
-}
-
-int GraphModel::columnCount(const QModelIndex& parent) const
-{
-    return 1;
-}
-
-bool GraphModel::hasChildren(const QModelIndex& parent) const
-{
-    return false;
 }
 
 QVariant GraphModel::data(const QModelIndex& index, int role) const
@@ -81,6 +60,7 @@ QVariant GraphModel::data(const QModelIndex& index, int role) const
     NodeItem* item = m_nodes[m_row2id[index.row()]];
 
     switch (role) {
+    case Qt::DisplayRole:   return item->ident;
     case ROLE_OBJID:    return item->ident;
     case ROLE_OBJNAME:  return item->name;
     case ROLE_OBJPOS:   return QVariantList({ item->pos.x(), item->pos.y() });
@@ -91,7 +71,7 @@ QVariant GraphModel::data(const QModelIndex& index, int role) const
     case ROLE_SUBGRAPH:
     {
         if (item->pSubgraph)
-            return QVariant::fromValue(item->params);
+            return QVariant::fromValue(item->pSubgraph);
         else
             return QVariant();
     }
@@ -158,7 +138,7 @@ void GraphModel::appendNode(QString ident, QString name, const QPointF& pos)
 
     beginInsertRows(QModelIndex(), nRows, nRows);
 
-    NodeItem* pItem = new NodeItem;
+    NodeItem* pItem = new NodeItem(this);
     pItem->setParent(this);
     pItem->ident = ident;
     pItem->name = name;
@@ -179,13 +159,14 @@ void GraphModel::appendSubgraphNode(QString ident, QString name, NODE_DESCRIPTOR
     int nRows = m_nodes.size();
     beginInsertRows(QModelIndex(), nRows, nRows);
 
-    NodeItem* pItem = new NodeItem;
+    NodeItem* pItem = new NodeItem(this);
     pItem->setParent(this);
     pItem->ident = ident;
     pItem->name = name;
     pItem->pos = pos;
     pItem->params = new ParamsModel(desc);
     pItem->pSubgraph = subgraph;
+    subgraph->setParent(pItem);
 
     m_row2id[nRows] = ident;
     m_id2Row[ident] = nRows;
