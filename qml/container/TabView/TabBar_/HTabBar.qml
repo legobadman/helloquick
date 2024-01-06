@@ -44,11 +44,13 @@ RowLayout  {
             hTabBarMain.resetTabBtnWidth()
         }
 
-        MouseArea { // 点击标签栏空余位置，都是添加新标签
+        MouseArea { // 点击标签栏空余位置，都是添加新标签（备注：这个设计有点...)
             anchors.fill: parent
             onClicked: {
+                /*
                 if(!app.tab.barIsLock)
                     app.tab.addNavi() // 添加导航页
+                */
             }
         }
 
@@ -166,6 +168,7 @@ RowLayout  {
                 property color bgColorPressed : "#44000000" // 按下
                 // 添加“+”按钮
                 Button {
+                    visible: false   //暂时不需要添加按钮，也许以后会有子图或者资产的添加
                     anchors.centerIn: parent
                     implicitWidth: hTabBarMain.height - 10
                     implicitHeight: hTabBarMain.height - 10
@@ -210,6 +213,7 @@ RowLayout  {
         Layout.fillHeight: true
         width: parent.height
         color: "#00000000"
+        visible: false      //锁定可以细化到标签锁定，这种整体锁定暂时没什么用
         // color: "blue"
 
         property color bgColorNormal: "#00000000" // 正常

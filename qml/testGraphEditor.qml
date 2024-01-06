@@ -64,10 +64,41 @@ ApplicationWindow {
             color: "#181818"
 
             TreeView {
-                id: defaultTreeView
+                id: styledTreeView
+
                 anchors.fill: parent
+                anchors.margins: 1
+
                 model: treeModel
-                color: "#FFFFFF"    //文字颜色
+                selectionEnabled: true
+                hoverEnabled: true
+
+                color: "#AAAACC"
+                handleColor: "#B0CCCC"
+                hoverColor: "#2A2D2E"
+                selectedColor: "#37373D"
+                selectedItemColor: "white"
+                handleStyle: TreeView.Handle.TriangleOutline
+                rowHeight: 40
+                rowPadding: 30
+                rowSpacing: 12
+                font.pixelSize: 20
+
+                onCurrentIndexChanged: {
+                    var graphM = model.graph(currentIndex)
+                    var ident = model.ident(currentIndex)
+                    var owner = graphM.owner()
+                    //console.log("ident: " + ident)
+                    //console.log("owner: " + owner)
+                    //tabView打开标签为owner的图，并且把焦点focus在ident上。
+                    app.tab.activatePage(owner, graphM)
+                }
+                onCurrentDataChanged: {
+                    //console.log("current data is " + currentData)
+                }
+                onCurrentItemChanged: {
+                    //console.log("current item is " + currentItem)
+                }
             }
         }
 

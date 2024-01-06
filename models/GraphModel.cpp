@@ -50,6 +50,17 @@ QVariant GraphModel::removeLink(const QString& nodeIdent, const QString& paramNa
     return QVariant();
 }
 
+QString GraphModel::owner() const
+{
+    if (auto pItem = qobject_cast<NodeItem*>(parent()))
+    {
+        return pItem->ident;
+    }
+    else {
+        return "main";
+    }
+}
+
 int GraphModel::rowCount(const QModelIndex& parent) const
 {
     return m_nodes.size();

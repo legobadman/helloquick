@@ -130,6 +130,18 @@ int GraphsTreeModel::depth(const QModelIndex& index) const
     return count;
 }
 
+GraphModel* GraphsTreeModel::graph(const QModelIndex& index) const
+{
+    GraphModel* ownerModel = static_cast<GraphModel*>(index.internalPointer());
+    Q_ASSERT(ownerModel);
+    return ownerModel;
+}
+
+QString GraphsTreeModel::ident(const QModelIndex& index) const
+{
+    return index.data(ROLE_OBJID).toString();
+}
+
 //! Clear the model.
 void GraphsTreeModel::clear()
 {

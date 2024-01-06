@@ -46,6 +46,9 @@ public:
         const QString& toNodeStr, const QString& toParamStr);
     Q_INVOKABLE QVariant removeLink(const QString& nodeIdent, const QString& paramName, bool bInput);
 
+    //TEST API
+    Q_INVOKABLE QString owner() const;
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;

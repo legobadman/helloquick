@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     //ZQuickParam* item = qobject_cast<ZQuickParam*>(myObject);
 
     GraphModel* graphM = new GraphModel("main");
-    graphM->appendNode("17d801b-CreateCube", "CreateCube", { 0, 0 });
+    graphM->appendNode("17d801b-CreateCube", "CreateCube", { 30, 30 });
     graphM->appendNode("d8b3fc3d-ParticlesWrangle", "ParticlesWrangle", {400, 400});
     graphM->addLink({ "17d801b-CreateCube","prim" }, { "d8b3fc3d-ParticlesWrangle", "prim" });
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
         subg = new GraphModel("aaa");
         {
             GraphModel* ssubg = new GraphModel("bbb");
-            ssubg->appendNode("0x84g654-SubInput", "SubInput", {0,0});
+            ssubg->appendNode("0x84g654-SubInput", "SubInput", {30,30});
             ssubg->appendNode("0x865754-SubOutput", "SubOutput", { 400, 400 });
             ssubg->addLink({"0x84g654-SubInput", "port"}, {"0x865754-SubOutput", "port"});
             subg->appendSubgraphNode("a75hs832-bbb", "bbb", {
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
                 }
             }, ssubg, { 150, 150 });
         }
-        subg->appendNode("74235gtbeer-SubInput", "SubInput", { 0, 0 });
+        subg->appendNode("74235gtbeer-SubInput", "SubInput", { 30, 30 });
         subg->appendNode("445gfdggre-SubOutput", "SubOutput", { 800, 800 });
         subg->addLink({"74235gtbeer-SubInput", "port"}, {"445gfdggre-SubOutput", "port"});
 
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
         subg2 = new GraphModel("aaa");
         {
             GraphModel* ssubg = new GraphModel("bbb");
-            ssubg->appendNode("abn64fs-SubInput", "SubInput", { 0,0 });
+            ssubg->appendNode("abn64fs-SubInput", "SubInput", { 30,30 });
             ssubg->appendNode("gv287tr-SubOutput", "SubOutput", { 400, 400 });
             ssubg->addLink({ "abn64fs-SubInput", "port" }, { "gv287tr-SubOutput", "port" });
             subg2->appendSubgraphNode("6435hege-bbb", "bbb", {
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
                 }
             }, ssubg, { 150, 150 });
         }
-        subg2->appendNode("abr37465-SubInput", "SubInput", { 0, 0 });
+        subg2->appendNode("abr37465-SubInput", "SubInput", { 30, 30 });
         subg2->appendNode("jnmtyret-SubOutput", "SubOutput", { 800, 800 });
         subg2->addLink({ "abr37465-SubInput", "port" }, { "jnmtyret-SubOutput", "port" });
 

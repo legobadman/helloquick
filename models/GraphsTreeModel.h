@@ -37,6 +37,11 @@ public:
     //! Return the depth for the given index
     Q_INVOKABLE int depth(const QModelIndex& index) const;
 
+    // 返回当前索引节点所在的图模型
+    Q_INVOKABLE GraphModel* graph(const QModelIndex& index) const;
+
+    Q_INVOKABLE QString ident(const QModelIndex& index) const;
+
     //! Clear the model.
     Q_INVOKABLE void clear();
 

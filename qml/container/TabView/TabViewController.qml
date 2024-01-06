@@ -35,6 +35,7 @@ Item {
         // 从历史记录中搜索仍存在的项
         const newPage = []
         const newIndex = []
+        /*暂时不需要打开历史页面
         for(let i in openPageList){
             const urlIndex = urlList.indexOf(openPageList[i])
             if(urlIndex == -1){
@@ -44,15 +45,17 @@ Item {
                 newIndex.push(urlIndex)
             }
         }
+        */
         openPageList = [] // 清空当前页面记录，重新添加
         // 初始为空，默认添加导航页
         if(newPage.length == 0){
-            addNavi()
+            //addNavi()
+            activatePage("main", nodesModel)
         }
         else { 
             let showPageI = showPageIndex // 另起一变量记录showPageIndex，以免受addTabPage的影响。
             // 初始不为空，添加初始页
-            for(let i in newIndex){
+            for(let i in newIndex) {
                 addTabPage(i, newIndex[i])
             }
             // 初始选中
@@ -85,6 +88,19 @@ Item {
         }
     }
 
+    function activatePage(title, graphM) {
+        var index = 0
+        for (index = 0; index < pageList.length; index++) {
+            if (pageList[index].id == title) {
+                showTabPage(index)
+                return
+            }
+        }
+        page.addPage2(index, title, graphM)
+        bar.addTab(index, title)
+        showTabPage(index)
+    }
+
     // 增： 在最后，添加一个导航页，并选中该页
     function addNavi(){
         addTabPage(-1, 0) // 添加页
@@ -103,11 +119,11 @@ Item {
         }
         if(showPageIndex == index){ // 若选中页就是被删除页
             if(pageList.length == 0){ // 已经没页了，就补充一个导航页
-                addNavi()
+                //addNavi()
             } else if (index == pageList.length){ // 原本在队尾，则展示当前队尾页
-                showTabPage(-1)
+                //showTabPage(-1)
             } else { // 原本不在队尾，则展示原本的后一个页
-                showTabPage(index)
+                //showTabPage(index)
             }
         }
     }

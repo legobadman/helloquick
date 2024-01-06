@@ -18,31 +18,6 @@ Item {
     */
     property var infoList: [
         {
-            url: "Navigation.qml",
-            title: "新标签页",
-            intro: ""
-        },
-        {
-            url: "Page1.qml",
-            title: "页面1",
-            intro: "简介1"
-        },
-        {
-            url: "Page2.qml",
-            title: "页面2",
-            intro: "简介2"
-        },
-        {
-            url: "Page3.qml",
-            title: "页面3",
-            intro: "简介3"
-        },
-        {
-            url: "DemoPage1.qml",
-            title: "DemoPage1",
-            intro: "简介44444"
-        },
-        {
             url: "qrc:/qml/Graph.qml",
             title: "main",
             intro: "主图"
@@ -79,6 +54,21 @@ Item {
             }
         }
         console.log("infoList comp 初始化完成")
+    }
+
+    function addPage2(index, owner, graphM) {
+        const comp = Qt.createComponent("qrc:/qml/Graph.qml")
+        var args = {z: 0, visible: true, graphModel: graphM}
+        const obj = comp.createObject(pagesNest, args)
+
+        // 列表添加
+        const dic = {
+            obj: obj,
+            info: infoList[0],
+            infoIndex: 0,
+            id: owner
+        }
+        pageList.splice(index, 0, dic) // 列表添加
     }
 
     // 增： 在 pageList 的 index 处，插入一个 infoList[infoIndex] 页面。
