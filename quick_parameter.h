@@ -8,7 +8,7 @@
 #include "common.h"
 #include <qqml.h>
 
-//需要定义一个control类型，并且能在qml也能复用
+//闇�瑕佸畾涔変竴涓猚ontrol绫诲瀷锛屽苟涓旇兘鍦╭ml涔熻兘澶嶇敤
 
 class ZQuickParam : public QQuickItem
 {

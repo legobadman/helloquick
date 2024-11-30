@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import ZQuickParam 1.0
 
 
-//Descriptor, ²ÎÕÕzsgµÄÃèÊö¸ñÊ½:
+//Descriptor, å‚ç…§zsgçš„æè¿°æ ¼å¼:
 var nodedescs = {
     "CreateCube" : {
         "inputs": [

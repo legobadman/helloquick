@@ -15,16 +15,16 @@ GraphsTreeModel::~GraphsTreeModel()
 
 QModelIndex GraphsTreeModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if (row < 0 || row >= rowCount())
+    if (row < 0 || row >= rowCount(parent))
         return QModelIndex();
 
     if (parent.isValid()) {
         GraphModel* pSubgraph = parent.data(ROLE_SUBGRAPH).value<GraphModel*>();
         Q_ASSERT(pSubgraph);
-        return createIndex(row, column, pSubgraph);
+        return createIndex(row, column, pSubgraph); //index的pointer项指的是拥有此item的GraphModel，类似于QStandItem的parent指针
     }
     else {
-        return createIndex(row, column, m_main);
+        return createIndex(row, column, nullptr);
     }
 }
 
@@ -32,6 +32,10 @@ QModelIndex GraphsTreeModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
+
+    if (child.internalId() == 0) {
+        return QModelIndex();
+    }
 
     QModelIndex innerChild = innerIndex(child);
     auto pModel = innerChild.model();
@@ -43,18 +47,18 @@ QModelIndex GraphsTreeModel::parent(const QModelIndex& child) const
             return createIndex(row, 0, parentModel);
         }
     }
-    return QModelIndex();
+    return createIndex(0, 0);   //main item
 }
 
 int GraphsTreeModel::rowCount(const QModelIndex& parent) const
 {
     if (!parent.isValid()) {
-        return m_main->rowCount();
+        //main item
+        return 1;
     }
-    else {
-        GraphModel* pSubgraph = parent.data(ROLE_SUBGRAPH).value<GraphModel*>();
-        return pSubgraph ? pSubgraph->rowCount() : 0;
-    }
+
+    GraphModel* pSubgraph  = parent.data(ROLE_SUBGRAPH).value<GraphModel*>();
+    return pSubgraph ? pSubgraph->rowCount() : 0;
 }
 
 int GraphsTreeModel::columnCount(const QModelIndex& parent) const
@@ -65,20 +69,20 @@ int GraphsTreeModel::columnCount(const QModelIndex& parent) const
 bool GraphsTreeModel::hasChildren(const QModelIndex& parent) const
 {
     if (!parent.isValid()) {
-        return m_main->rowCount() > 0;
+        return true;        //the only child is main item.
     }
     else {
         GraphModel* pSubgraph = parent.data(ROLE_SUBGRAPH).value<GraphModel*>();
         return pSubgraph ? (pSubgraph->rowCount() > 0) : false;
     }
-    return false;
 }
 
 QModelIndex GraphsTreeModel::innerIndex(const QModelIndex& treeIdx) const
 {
     if (!treeIdx.isValid())
         return QModelIndex();
-    //tree����кź�ͼģ�͵��к���һ�µġ�
+
+    //tree项的行号和图模型的行号是一致的。
     GraphModel* ownerModel = static_cast<GraphModel*>(treeIdx.internalPointer());
     Q_ASSERT(ownerModel);
     return ownerModel->index(treeIdx.row(), 0);
@@ -86,6 +90,19 @@ QModelIndex GraphsTreeModel::innerIndex(const QModelIndex& treeIdx) const
 
 QVariant GraphsTreeModel::data(const QModelIndex& index, int role) const
 {
+    if (!index.isValid())
+        return QVariant();
+    
+    if (index.internalId() == 0) {
+        //main item
+        if (Qt::DisplayRole == role || ROLE_OBJNAME == role) {
+            return "main";
+        }
+        else if (ROLE_SUBGRAPH == role) {   //相当于子图节点那样，main可以看作最根部的子图节点
+            return QVariant::fromValue(m_main);
+        }
+        return QVariant();
+    }
     QModelIndex innerIdx = innerIndex(index);
     return innerIdx.data(role);
 }
@@ -132,6 +149,9 @@ int GraphsTreeModel::depth(const QModelIndex& index) const
 
 GraphModel* GraphsTreeModel::graph(const QModelIndex& index) const
 {
+    if (index.isValid() && index.internalId() == 0)
+        return nullptr;
+
     GraphModel* ownerModel = static_cast<GraphModel*>(index.internalPointer());
     Q_ASSERT(ownerModel);
     return ownerModel;

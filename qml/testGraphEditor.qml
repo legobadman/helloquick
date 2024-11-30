@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import QuickQanava      2.0 as Qan
 import Qt.labs.settings 1.1
 import "./view"
 import "./container/TabView"
@@ -15,26 +14,26 @@ ApplicationWindow {
     height: 960
     title: qsTr("Hello World")
 
-    // ¶¨ÒåÈ«¾Ö¶ÔÏó£¬Í¨¹ı app À´·ÃÎÊ
+    // å®šä¹‰å…¨å±€å¯¹è±¡ï¼Œé€šè¿‡ app æ¥è®¿é—®
     Item {
         id: app
 
-        // ±êÇ©Ò³Âß¼­¿ØÖÆÆ÷
+        // æ ‡ç­¾é¡µé€»è¾‘æ§åˆ¶å™¨
         TabViewController { id: tab_ }
-        property var tab: tab_ // Í¨¹ı app.tab À´·ÃÎÊ
+        property var tab: tab_ // é€šè¿‡ app.tab æ¥è®¿é—®
 
-        // ³Ö¾Ã»¯´æ´¢
+        // æŒä¹…åŒ–å­˜å‚¨
         Settings { 
             id: settings
-            fileName: "./.settings_ui.ini" // ÅäÖÃÎÄ¼şÃû
+            fileName: "./.settings_ui.ini" // é…ç½®æ–‡ä»¶å
 
 
             property alias openPageList: tab_.openPageList
             property alias showPageIndex: tab_.showPageIndex
             property alias barIsLock: tab_.barIsLock
 
-            property bool refresh: false // ÓÃÓÚË¢ĞÂ
-            function save(){ // ÊÖ¶¯Ë¢ĞÂ
+            property bool refresh: false // ç”¨äºåˆ·æ–°
+            function save(){ // æ‰‹åŠ¨åˆ·æ–°
                 refresh=!refresh
             }
         }
@@ -90,7 +89,7 @@ ApplicationWindow {
                     var owner = graphM.owner()
                     //console.log("ident: " + ident)
                     //console.log("owner: " + owner)
-                    //tabView´ò¿ª±êÇ©ÎªownerµÄÍ¼£¬²¢ÇÒ°Ñ½¹µãfocusÔÚidentÉÏ¡£
+                    //tabViewæ‰“å¼€æ ‡ç­¾ä¸ºownerçš„å›¾ï¼Œå¹¶ä¸”æŠŠç„¦ç‚¹focusåœ¨identä¸Šã€‚
                     app.tab.activatePage(owner, graphM)
                 }
                 onCurrentDataChanged: {
@@ -113,27 +112,6 @@ ApplicationWindow {
         width: 1180
         height: 900
         graphModel: nodesModel
-    }
-    */
-
-    /*
-    Qan.Navigable {
-        id: graphView
-        anchors.fill: parent
-        navigable: true
-        gridThickColor: "#c1c1c1"
-    }
-
-    Canvas {
-        id: mycanvas
-        //width: 100
-        //height: 200
-        anchors.fill: parent
-        onPaint: {
-            var ctx = getContext("2d");
-            ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
-            ctx.fillRect(0, 0, width, height);
-        }
     }
     */
 }

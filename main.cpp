@@ -54,16 +54,16 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<ZQuickParam::CONTROL_TYPE>("ZQuickParam::CONTROL_TYPE");
     qmlRegisterType<ZQuickParam>("ZQuickParam", 1, 0, "ZQuickParam");
-    qmlRegisterType<ZQuickNode>("ZQuickNode", 1, 0, "ZQuickNode");
+    //qmlRegisterType<ZQuickNode>("ZQuickNode", 1, 0, "ZQuickNode");
 
     qRegisterMetaType<ParamsModel*>("ParamsModel*");
     qRegisterMetaType<LinkModel*>("LinkModel*");
 
-    qmlRegisterType<qan::Navigable>("QuickQanava", 2, 0, "Navigable");
-    qmlRegisterType<qan::NavigablePreview >("QuickQanava", 2, 0, "NavigablePreview");
-    qmlRegisterType<qan::OrthoGrid>("QuickQanava", 2, 0, "OrthoGrid");
-    qmlRegisterType<qan::impl::GridLine>("QuickQanava", 2, 0, "GridLine");
-    qmlRegisterType<qan::LineGrid>("QuickQanava", 2, 0, "AbstractLineGrid");
+    //qmlRegisterType<qan::Navigable>("QuickQanava", 2, 0, "Navigable");
+    //qmlRegisterType<qan::NavigablePreview >("QuickQanava", 2, 0, "NavigablePreview");
+    //qmlRegisterType<qan::OrthoGrid>("QuickQanava", 2, 0, "OrthoGrid");
+    //qmlRegisterType<qan::impl::GridLine>("QuickQanava", 2, 0, "GridLine");
+    //qmlRegisterType<qan::LineGrid>("QuickQanava", 2, 0, "AbstractLineGrid");
 
     qmlRegisterUncreatableType<ParamControl>("zeno.enum", 1, 0, "ParamControl", "Not creatable as it is an enum type");
 
@@ -237,9 +237,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("nodesModel", graphM);
     engine.rootContext()->setContextProperty("treeModel", pTreeModel);
 
-    //engine.load(QUrl(QStringLiteral("qrc:/qml/testNode.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/qml/rect.qml")));
     engine.load(QUrl(QStringLiteral("qrc:/qml/testGraphEditor.qml")));
-    //engine.load(QUrl(QStringLiteral("qrc:/qml/autoload-static/Main.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/qml/autoload/Main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

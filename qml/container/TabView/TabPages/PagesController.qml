@@ -83,7 +83,7 @@ Item {
         if (comp.url == "qrc:/qml/Graph.qml")
         {
             console.log("add nodesmodel")
-            args["graphModel"] = nodesModel
+            //args["graphModel"] = nodesModel
             console.log(args)
         }
         const obj = comp.createObject(pagesNest, args)

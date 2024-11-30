@@ -25,12 +25,13 @@ ApplicationWindow {
             ZParam2 {
                 id: param1
                 name: "position"
-            }*/
+            }
         
             ZParam2 {
                 id: param2
                 name: "scale"
             }
+            */
         }
     }
 }

@@ -27,7 +27,7 @@ public:
     NodeItem(QObject* parent) : QObject(parent) {}
 };
 
-//为什么不base StandardModel，是因为StandardItem本身还得挂载一个模型，有点冗余，干脆自己实现一个图treemodel.
+//涓轰粈涔堜笉base StandardModel锛屾槸鍥犱负StandardItem鏈韩杩樺緱鎸傝浇涓�涓ā鍨嬶紝鏈夌偣鍐椾綑锛屽共鑴嗚嚜宸卞疄鐜颁竴涓浘treemodel.
 class GraphModel : public QAbstractListModel
 {
     Q_OBJECT
